@@ -1,0 +1,118 @@
+<div *ngIf="vehicle">
+
+
+    <a (click)="goBack()" class="previous">&#8249;</a>
+    <div class="row" >
+        <div class="col-sm-5 offset-sm-3">
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-car"></i> {{vehicle.brand}}</h5>
+                <p class="card-text">
+                    <i class="fad fa-badge-dollar"></i> Price: {{vehicle.price| currency }}<br>
+                    <i class="fas fa-barcode"></i> UniqueNumber: {{vehicle.uniqueNumber}}<br>
+                    <i class="fas fa-fill-drip"></i> Color: {{vehicle.color}}<br>
+                    <i class="fas fa-cogs"></i> Engine: {{vehicle.carEngine}}<br>
+                    <i class="fas fa-hourglass-end"></i> Date: {{vehicle.date | date}}<br>
+                    <i class="fas fa-tachometer-alt"></i> Drive: {{vehicle.drive}}<br>
+                    <i class="fad fa-tire"></i> Transmisstion: {{vehicle.transmision}}<br>
+                </p>
+                <p class="card-text">{{vehicle.description}}</p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>  
+
+    <div class="row justify-content-center mt-3" >
+        <div class="col-sm-9">
+
+            <div class="input-group mb-3">
+                <input [(ngModel)]="vehicle.brand"  type="text" class="form-control" placeholder="The brand of vehicle" aria-label="The brand of vehicle" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                  <span class="input-group-text" id="basic-addon2">example</span>
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">$</span>
+                  <span class="input-group-text">0.00</span>
+                </div>
+                <input [(ngModel)]="vehicle.price" type="text" placeholder="car price" class="form-control" aria-label="Amount (to the nearest dollar)">
+            </div>
+
+            <div class="input-group mb-3">
+                <input [(ngModel)]="vehicle.uniqueNumber"  type="text" class="form-control" placeholder="Unique car number" aria-label="Unique car number" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">AA-1234-BB</span>
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <input  [(ngModel)]="vehicle.color" type="text" class="form-control" placeholder="The color of vehicle" aria-label="The color of vehicle" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">example</span>
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <select [(ngModel)]="vehicle.carEngine" class="custom-select" id="inputGroupSelect02">
+                  <option selected>Choose...</option>
+                  <option value="1">1.6</option>
+                  <option value="2">2.2</option>
+                  <option value="3">3</option>
+                  <option value="3">4</option>
+                  <option value="3">5</option>
+                  <option value="3">6</option>
+                </select>
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">engine size</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input  [(ngModel)]="vehicle.date" type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker1').datetimepicker();
+                });
+            </script>
+
+            <div class="input-group mb-3">
+                <input [(ngModel)]="vehicle.drive" type="text" class="form-control" placeholder="The drive of vehicle" aria-label="The drive of vehicle" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2">Front</span>
+                </div>
+            </div>
+
+            <div class="input-group mb-3">
+                <select [(ngModel)]="vehicle.transmision" class="custom-select" id="inputGroupSelect02" >
+                  <option selected>Choose type of transmission...</option>
+                  <option value="1">Automatic Transmission (AT)</option>
+                  <option value="2">Manual Transmission (MT)</option>
+                  <option value="3">Automated Manual Transmission (AM)</option>
+                  <option value="3">Continuously Variable Transmission (CVT)</option>
+                </select>
+                <div class="input-group-append">
+                  <label class="input-group-text" for="inputGroupSelect02">the transmission of car</label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Description</span>
+                </div>
+                <textarea  [(ngModel)]="vehicle.description" class="form-control" aria-label="Description" rows="6"></textarea>
+            </div>
+
+        </div>
+        
+    </div>
+</div>

@@ -26,7 +26,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/myJsFile.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -62,7 +64,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "vehiclesFront:build"
+            "browserTarget": "vehiclesFront:build",
+            "port":4500
           },
           "configurations": {
             "production": {
@@ -119,6 +122,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "vehiclesFront"
+    }
+  },
+  "defaultProject": "vehiclesFront",
+  "cli": {
+    "analytics": false
+  }
 }
