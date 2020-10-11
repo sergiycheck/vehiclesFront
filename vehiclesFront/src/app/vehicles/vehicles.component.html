@@ -1,0 +1,63 @@
+
+  <h2>Vehicles list</h2>
+  <input type="button" value="create car" class="btn btn-primary" (click)="createCar()">
+  
+  <div *ngIf="showUpdatePane">
+      <label for="car_brand">vehicle brand</label>
+      <input id="car_brand" type="text" name="brand" [(ngModel)]="vehicle.brand" placeholder="brand" class="form-control">
+
+      <label for="car_uniqueNumber">vehicle unique number</label>
+      <input id="car_uniqueNumber" type="text" name="uniqueNumber" [(ngModel)]="vehicle.uniqueNumber" placeholder="uniqueNumber" class="form-control">
+
+      <label for="car_color">vehicle color</label>
+      <input id="car_color" type="text" name="color" [(ngModel)]="vehicle.color" placeholder="color" class="form-control">
+      
+      <label for="car_date">vehicle date</label>
+      <input id="car_date" type="text" name="date" [(ngModel)]="vehicle.date" placeholder="date" class="form-control">
+
+      <label for="car_price">vehicle price</label>
+      <input id="car_price" type="text" name="price" [(ngModel)]="vehicle.price" placeholder="price" class="form-control">
+
+      <label for="car_engine">vehicle engine</label>
+      <input id="car_engine"  type="text" name="carEngine" [(ngModel)]="vehicle.carEngine" placeholder="car engine" class="form-control">
+
+      <label for="car_description">vehicle description</label>
+      <input id="car_description" type="text" name="description" [(ngModel)]="vehicle.description" placeholder="description" class="form-control">
+
+      <label for="car_transmission">vehicle transmission</label>
+      <input  id="car_transmission" type="text" name="transmisstion" [(ngModel)]="vehicle.transmision" placeholder="transmisstion" class="form-control">
+
+      <label for="car_drive">vehicle drive</label>
+      <input id="car_drive" type="text" name="drive" [(ngModel)]="vehicle.drive" placeholder="drive" class="form-control" style="margin-bottom: 20px;">
+
+      <input type="button" class="btn btn-success" value="Save" (click)="save()">
+      <input type="button" class="btn btn-default" value="cancel" (click)="cancel()">
+  </div>
+
+
+  <div class="row" >
+<!-- https://fontawesome.com/icons?d=gallery -->
+      <div class="col-sm-4" *ngFor="let elem of vehicles">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-car"></i> {{elem.brand}}</h5>
+            <p class="card-text">
+              <i class="fad fa-badge-dollar"></i> Price: {{elem.price| currency }}<br>
+              <i class="fas fa-barcode"></i> UniqueNumber: {{elem.uniqueNumber}}<br>
+              <i class="fas fa-fill-drip"></i> Color: {{elem.color}}<br>
+              <i class="fas fa-cogs"></i> Engine: {{elem.carEngine}}<br>
+              <i class="fas fa-hourglass-end"></i> Date: {{elem.date | date}}<br>
+              <i class="fas fa-tachometer-alt"></i> Drive: {{elem.drive}}<br>
+              <i class="fad fa-tire"></i> Transmisstion: {{elem.transmision}}<br>
+            </p>
+            <p class="card-text">{{elem.description}}</p>
+            <a routerLink="/vehicle-details/{{elem.id}}">Details</a>
+            <a (click)="editCar(elem)" class="btn btn-warning">Update</a>
+            <a (click)="delete(elem.id)" class="btn btn-danger "><i class="fas fa-window-close"></i></a>
+          </div>
+        </div>
+      </div>
+
+  </div>  
+
+

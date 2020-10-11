@@ -1,0 +1,10 @@
+.switch-position::after{
+    clear: both;
+}
+#content{
+    padding-top:10px;
+}
+.nigthMode{
+    color: #eee!important;
+    background-color: #121212!important;
+}
