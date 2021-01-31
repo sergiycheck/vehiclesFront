@@ -3,6 +3,7 @@ import { Car } from "../models/car";
 import{Location} from '@angular/common';
 import {CarDataService  } from "../car.data.service";
 import{ActivatedRoute} from '@angular/router';
+import {Response} from '../models/response';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -26,7 +27,8 @@ export class VehicleDetailsComponent implements OnInit {
     this.getVehicle();
   }
   getVehicle():void{
-    this.carService.getCar(this.id).subscribe(v => this.vehicle =v);
+    this.carService.getCar(this.id)
+    .subscribe(response => this.vehicle =response.data);
   }
   goBack():void{
     this.location.back();
