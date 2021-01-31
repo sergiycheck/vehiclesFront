@@ -20,17 +20,17 @@ export class CarDataService {
     headers:new HttpHeaders({'Accept':'application/json','Content-type':'application/json'})
   };
 
-  getCars():Observable<Car[]>{
-    return this.http.get<Car[]>(vehiclesUrl)
+  getCars():Observable<Response>{
+    return this.http.get<Response>(vehiclesUrl)
     .pipe(
-      catchError(this.handleError<Car[]>('getCars',[]))
+      catchError(this.handleError<Response>('getCars'))
     );
   }
 
-  getCar(id:number):Observable<Car>{
-    return this.http.get<Car>(vehiclesUrl+`/${id}`)
+  getCar(id:number):Observable<Response>{
+    return this.http.get<Response>(vehiclesUrl+`/${id}`)
     .pipe(
-      catchError(this.handleError<Car>('getCar'))
+      catchError(this.handleError<Response>('getCar'))
     );
   }
 

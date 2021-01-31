@@ -8,3 +8,11 @@
     color: #eee!important;
     background-color: #121212!important;
 }
+.heading>a{
+  cursor: pointer;
+  color:rgb(16, 180, 206);
+}
+
+.heading>a:hover{
+  text-decoration: none;
+}
