@@ -15,7 +15,9 @@ export class authSuccessResponse{
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthGuard implements CanActivate {
 
   constructor(
@@ -36,11 +38,10 @@ export class AuthGuard implements CanActivate {
     const token = localStorage.getItem("jwt");
     if (token && !this.jwtHelper.isTokenExpired(token)){
       console.log(`can be activated. \n Decoded token: \n`);
-      console.log(this.jwtHelper.decodeToken(token));
+      //console.log(this.jwtHelper.decodeToken(token));
       return true;
     }
-    let isRefreshSuccessful:boolean=false;
-    isRefreshSuccessful = await this.tryRefreshToken(token);
+    const isRefreshSuccessful = await this.tryRefreshToken(token);
     if(!isRefreshSuccessful){
       this.router.navigate(["auth"]);
     }
@@ -53,26 +54,37 @@ export class AuthGuard implements CanActivate {
     if(!token||!refreshToken){
       return false;
     }
-    const credentials = JSON.stringify({token:token,refreshToken:refreshToken});
-    let isRefreshSuccessful:boolean=false;
-    this.http.post(
-      refreshTokenPath,
-      credentials,
-      this.httpOptions
-    ).pipe(
-      tap(_=>console.log('token is refreshed')),
-      catchError(this.handleError<any>('tryRefreshToken'))
-    ).subscribe((response:authSuccessResponse)=>{
-      console.log(`response:`);
-      console.log(response);
-      const token = response.token;
-      const refreshToken = response.refreshToken;
-      localStorage.setItem('jwt',token);
-      localStorage.setItem('refreshToken',refreshToken);
-      isRefreshSuccessful=true;
-    });
-    return isRefreshSuccessful;
+    const credentials = JSON.stringify({
+      token:token,
+      refreshToken:refreshToken});
+
+    return this.getRefreshingResult(credentials);
+
   }
+
+  private getRefreshingResult(credentials):Promise<boolean>{
+    return new Promise((resolve,reject)=>{
+      this.http.post(
+        refreshTokenPath,
+        credentials,
+        this.httpOptions
+      ).pipe(
+        tap(_=>console.log('token is refreshed')),
+        catchError(this.handleError<any>('tryRefreshToken'))
+      ).subscribe((response:authSuccessResponse)=>{
+        console.log(`response:`);
+        console.log(response);
+        const token = response.token;
+        const refreshToken = response.refreshToken;
+        localStorage.setItem('jwt',token);
+        localStorage.setItem('refreshToken',refreshToken);
+        resolve(true);
+      });
+    });
+  }
+
+
+
 
 /**
  * Handle Http operation that failed.
