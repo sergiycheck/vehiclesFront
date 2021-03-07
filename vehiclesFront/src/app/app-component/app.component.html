@@ -12,7 +12,8 @@
               <a routerLink="/" (click)="logOut()">Log out</a>
             </div>
             <div class="col-sm-auto">
-              <a *ngIf="!isUserAuthenticated()"  routerLink="/auth">Login</a>
+              <a *ngIf="!isUserAuthenticated()" routerLink="/auth">Login</a>
+              <a *ngIf="isUserAuthenticated()" >Hi, User {{userName}}!</a>
             </div>
             <!-- Default checked -->
             <div class="custom-control custom-switch switch-position col-sm-auto" >

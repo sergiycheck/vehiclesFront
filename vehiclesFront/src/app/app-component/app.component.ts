@@ -1,6 +1,8 @@
 import { Component, OnInit,Renderer2 } from '@angular/core';
 import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import {UserDataService} from '../services/user.data.service';
+import { AuthGuard } from "../../app/guards/auth-guard.service";
 
 declare function addRemoveClass():any;//run in myJsFile.js
 
@@ -17,10 +19,13 @@ export class AppComponent implements OnInit {
     render2:Renderer2,
     private jwtHelper:JwtHelperService,
     private router:Router,
+    private userData:UserDataService,
+    private authGuard:AuthGuard,
 
     ){
-
   }
+  userName:string;
+
   ngOnInit(): void {
   }
 
@@ -31,9 +36,28 @@ export class AppComponent implements OnInit {
 
   isUserAuthenticated():boolean{
     const token:string = localStorage.getItem("jwt");
-    return token && !this.jwtHelper.isTokenExpired(token)?true:false;
+    if(token && !this.jwtHelper.isTokenExpired(token)){
+      if(!this.userName){
+        this.getUserName(token);
+      }
+      return true;
+    }else{
+      if(this.jwtHelper.isTokenExpired(token)){
+        // if(this.authGuard.canActivate()){
+        //   this.userName = "";
+        // }
+      }
+
+    }
+    return false;
   }
 
+  getUserName(token:string):void{
+    this.userData.getUserName(token)
+    .subscribe((response)=>{
+      this.userName = response;
+    })
+  }
 
   logOut(){
     localStorage.removeItem("jwt");

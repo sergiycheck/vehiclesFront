@@ -3,8 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
 import {login} from '../configs/api-endpoint.constants';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, throwIfEmpty } from 'rxjs/operators';
 import { Observable,of } from 'rxjs';
+import { AuthGuard } from "../guards/auth-guard.service";
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 @Component({
   selector: 'app-my-login',
@@ -20,17 +22,25 @@ export class MyLoginComponent implements OnInit {
   constructor(
     private router:Router,
     private http:HttpClient,
-
+    private authGuard:AuthGuard,
+    private jwtHelper:JwtHelperService,
   ) { }
 
-  ngOnInit(): void {
-  }
   private httpOptions={
     headers:new HttpHeaders({
       'Accept':'application/json',
       'Content-type':'application/json'
     })
   };
+
+  ngOnInit(): void {
+    console.log("refreshing from login component");
+    if(this.authGuard.canActivate()){
+      this.router.navigate(['/']);
+    }
+
+  }
+
 
   onSubmit(form:NgForm){
     console.log(`${form.value.email} \n ${form.value.password} \n ${form.value}`);

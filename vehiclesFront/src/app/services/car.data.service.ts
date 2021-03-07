@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
 import{HttpClient,HttpHeaders} from '@angular/common/http';
-import { Car } from "./models/car";
+import { Car } from "../models/car";
 import { Observable,of } from 'rxjs';
-import {vehiclesUrl} from "./configs/api-endpoint.constants";
+import {vehiclesUrl} from "../configs/api-endpoint.constants";
 import {catchError,map,tap} from 'rxjs/operators';
-import {Response} from './models/response';
+import {Response} from '../models/response';
+import {BaseDataService} from './base.data.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class CarDataService {
+export class CarDataService extends BaseDataService {
 
   constructor(
-    private http:HttpClient,
-  ) { }
+    public http:HttpClient,
+  ) {
+    super(http);
+   }
 
   private httpOptions={
     headers:new HttpHeaders({'Accept':'application/json','Content-type':'application/json'})
@@ -56,20 +59,4 @@ export class CarDataService {
     )
   }
 
-
-
-
-    /**
- * Handle Http operation that failed.
- * Let the app continue.
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
 }
