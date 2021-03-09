@@ -16,9 +16,6 @@ export class UserDataService extends BaseDataService {
     super(http);
    }
 
-  private httpOptions={
-    headers:new HttpHeaders({'Accept':'application/json','Content-type':'application/json'})
-  };
 
   getUserName(tokenValue:string):Observable<string>{
     const tokenRequest:any={

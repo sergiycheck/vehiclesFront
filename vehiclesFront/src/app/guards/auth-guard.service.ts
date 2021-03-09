@@ -43,7 +43,7 @@ export class AuthGuard implements CanActivate {
     }
     const isRefreshSuccessful = await this.tryRefreshToken(token);
     if(!isRefreshSuccessful){
-      this.router.navigate(["auth"]);
+      this.router.navigate(["/auth"]);
     }
     return isRefreshSuccessful;
   }
@@ -74,12 +74,19 @@ export class AuthGuard implements CanActivate {
       ).subscribe((response:authSuccessResponse)=>{
         console.log(`response:`);
         console.log(response);
-        const token = response.token;
-        const refreshToken = response.refreshToken;
-        localStorage.setItem('jwt',token);
-        localStorage.setItem('refreshToken',refreshToken);
-        resolve(true);
+        if(response){
+          const token = response.token;
+          const refreshToken = response.refreshToken;
+          localStorage.setItem('jwt',token);
+          localStorage.setItem('refreshToken',refreshToken);
+          resolve(true);
+        }else{
+          localStorage.removeItem("jwt");
+          localStorage.removeItem("refreshToken");
+        }
+
       });
+
     });
   }
 

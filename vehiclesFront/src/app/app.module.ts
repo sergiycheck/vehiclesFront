@@ -11,7 +11,14 @@ import { MyLoginComponent } from './my-login/my-login.component';
 import { JwtModule } from "@auth0/angular-jwt";
 import { environment } from "../../src/environments/environment";
 import { AuthGuard } from "./guards/auth-guard.service";
+import { UserChatComponent } from './user-chat/user-chat.component';
 
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatNativeDateModule, MatRippleModule } from "@angular/material/core";
 
 export function tokenCustomGetter(){
   let token = localStorage.getItem("jwt");
@@ -25,11 +32,13 @@ export function tokenCustomGetter(){
     AppComponent,
     VehiclesComponent,
     VehicleDetailsComponent,
-    MyLoginComponent
+    MyLoginComponent,
+    UserChatComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    MatDatepickerModule,MatNativeDateModule,MatIconModule,MatInputModule,
     AppRoutingModule,
     HttpClientModule,
     JwtModule.forRoot({
@@ -39,7 +48,7 @@ export function tokenCustomGetter(){
         blacklistedRoutes:[""]
       }
     }),
-
+    NoopAnimationsModule,
   ],
   providers: [
     AuthGuard

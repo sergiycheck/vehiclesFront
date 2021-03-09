@@ -4,7 +4,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import {UserDataService} from '../services/user.data.service';
 import { AuthGuard } from "../../app/guards/auth-guard.service";
 
-declare function addRemoveClass():any;//run in myJsFile.js
+declare function addRemoveClass():any; //run in myJsFile.js
 
 @Component({
   selector: 'app-root',
@@ -46,6 +46,7 @@ export class AppComponent implements OnInit {
         // if(this.authGuard.canActivate()){
         //   this.userName = "";
         // }
+        //console.log(`token expired ${token}`);
       }
 
     }

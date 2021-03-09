@@ -1,0 +1,27 @@
+
+.custom-border{
+  border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border: 1px solid #bda8f7;
+}
+
+.chat-message-container{
+	min-height: 70vh;
+  overflow: scroll;
+  max-height: 600px;
+}
+.edit-msg:hover{
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+}
+.inp-name{
+  width: fit-content;
+}
+
+.input-span{
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 1px 6px;
+}

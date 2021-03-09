@@ -1,34 +1,41 @@
 <!-- https://getbootstrap.com/docs/4.0/layout/grid/ -->
-<div  class="container mb-5">
+<div class="wrapper">
+  <div  class="main-content container mb-5">
 
-    <div id="content" class="row justify-content-between">
-        <div class="col-sm-4 col-md-auto">
-            <h1  class="heading"><a routerLink="/vehicles">Vehicles and owners</a></h1>
-        </div>
-
-        <div class="col-sm-5">
-          <div class="row">
-            <div class="col-sm-auto">
-              <a routerLink="/" (click)="logOut()">Log out</a>
-            </div>
-            <div class="col-sm-auto">
-              <a *ngIf="!isUserAuthenticated()" routerLink="/auth">Login</a>
-              <a *ngIf="isUserAuthenticated()" >Hi, User {{userName}}!</a>
-            </div>
-            <!-- Default checked -->
-            <div class="custom-control custom-switch switch-position col-sm-auto" >
-              <input type="checkbox" class="custom-control-input" id="customSwitch1" (change)="onCheckBoxChange()">
-              <label class="custom-control-label" for="customSwitch1">switch to nigth mode</label>
-          </div>
+      <div id="content" class="row justify-content-between align-items-center">
+          <div class="col-sm-4 col-md-auto">
+              <h1  class="heading"><a routerLink="/vehicles">Vehicles and owners</a></h1>
           </div>
 
-        </div>
+          <div class="col-sm-5">
+            <div class="row">
+              <div class="col-sm-auto">
+                <a routerLink="/chat">chat</a>
+              </div>
+              <div *ngIf="isUserAuthenticated()" class="col-sm-auto">
+                <a routerLink="/"  (click)="logOut()">Log out</a>
+              </div>
+              <div *ngIf="!isUserAuthenticated()" class="col-sm-auto" >
+                <a  routerLink="/auth">Login</a>
+              </div>
+              <div *ngIf="isUserAuthenticated()" class="col-sm-auto">
+                <a>Hi, User {{userName}}!</a>
+              </div>
+              <!-- Default checked -->
+              <div class="form-check form-switch col-sm-auto" >
+                <input type="checkbox" class="form-check-input" id="customSwitch1" (change)="onCheckBoxChange()">
+                <label class="form-check-label" for="customSwitch1">switch to nigth mode</label>
+            </div>
+            </div>
+
+          </div>
 
 
-    </div>
+      </div>
 
 
 
-<!-- <app-vehicles></app-vehicles> -->
-<router-outlet></router-outlet>
+  <!-- <app-vehicles></app-vehicles> -->
+  <router-outlet></router-outlet>
+  </div>
 </div>

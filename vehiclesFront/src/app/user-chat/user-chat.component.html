@@ -1,0 +1,79 @@
+<div class="row chat-content ">
+  <div class="col-3 channels custom-border mx-2">
+    <h1>channels</h1>
+  </div>
+  <div class="col-sm-7 align-items-end justify-content-start custom-border">
+
+    <div class="chat-message-container d-flex flex-column overflow-auto">
+
+      <div *ngFor="let msg of messages"
+        [ngClass]=" msg.user === message.user? 'align-self-end':'align-self-start' ">
+
+        <div class="rounded d-flex mb-1 my-2 ">
+
+          <div class="me-2 bg-light rounded">
+
+            <img *ngIf="msg.user != message.user"
+              src="https://img.icons8.com/pastel-glyph/2x/person-male--v2.png"
+              width="50" height="50" class="rounded me-2" alt="user picture">
+
+            <p class="text-small">{{msg.user}}</p>
+          </div>
+
+          <div class="bg-light rounded">
+            <div class="d-flex justify-content-end">
+              <small class="text-muted me-2 edit-msg">Edit</small>
+              <button type="button" class="btn-close"></button>
+            </div>
+
+            <div class="p-2">
+              <p [ngClass]=" msg.user === message.user? 'text-white bg-primary' : 'bg-light' ">
+                <span class="text-small mb-0 p-2 rounded " >
+                  {{msg.data}}
+                </span>
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+        <p class="small text-muted">12:00 PM | Apr. 13</p>
+
+      </div>
+
+    </div>
+
+    <div class="p-1 m-2">
+      <div class="row justify-content-start">
+        <div class="col-md-9 col-sm-12 d-flex flex-column">
+          <input [(ngModel)]="message.user" required class=" inp-name form-control" placeholder="your name">
+
+            <!-- <span
+              [(ngModel)] = "message.data"
+              name="message data"
+              id="message-data"
+              class="input-span form-control border-2 pl-2 mt-2"
+              role="textbox"
+              contenteditable>
+            </span> -->
+            <!-- https://stackoverflow.com/questions/45659742/angular4-no-value-accessor-for-form-control/45659791 -->
+            <!-- https://blog.thoughtram.io/angular/2016/07/27/custom-form-controls-in-angular-2.html -->
+
+            <input [(ngModel)] = "message.data"
+            name="message data"
+            required
+            id="message-data" type="text" class="input-span form-control border-2 pl-2 mt-2" >
+
+        </div>
+
+        <div class="col-md-2 col-sm-2">
+          <button id="send-message-btn" type="submit" class="btn btn-primary" (click)="sendMessage()" >
+            <span class="material-icons">send</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
