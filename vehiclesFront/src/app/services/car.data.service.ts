@@ -19,9 +19,7 @@ export class CarDataService extends BaseDataService {
     super(http);
    }
 
-  private httpOptions={
-    headers:new HttpHeaders({'Accept':'application/json','Content-type':'application/json'})
-  };
+
 
   getCars():Observable<Response>{
     return this.http.get<Response>(vehiclesUrl)
@@ -37,7 +35,7 @@ export class CarDataService extends BaseDataService {
     );
   }
 
-  createCar(car:Car):Observable<Car>{
+  createCar(car:Car):Observable<any>{
     return this.http.post(`${vehiclesUrl}/create`,car,this.httpOptions)
       .pipe(
         tap((car:Car) => console.log(`added car w/ id =${car.id}`)),

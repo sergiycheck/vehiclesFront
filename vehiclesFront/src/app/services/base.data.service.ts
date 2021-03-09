@@ -10,7 +10,9 @@ export class BaseDataService {
     public http:HttpClient,
   ) { }
 
-
+public httpOptions={
+  headers:new HttpHeaders({'Accept':'application/json','Content-type':'application/json'})
+  };
 
     /**
  * Handle Http operation that failed.

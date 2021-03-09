@@ -1,7 +1,7 @@
 
   <h2>Vehicles list</h2>
   <input type="button" value="create car" class="btn btn-primary" (click)="createCar()">
-  
+
   <div *ngIf="showUpdatePane">
       <label for="car_brand">vehicle brand</label>
       <input id="car_brand" type="text" name="brand" [(ngModel)]="vehicle.brand" placeholder="brand" class="form-control">
@@ -11,15 +11,29 @@
 
       <label for="car_color">vehicle color</label>
       <input id="car_color" type="text" name="color" [(ngModel)]="vehicle.color" placeholder="color" class="form-control">
-      
-      <label for="car_date">vehicle date</label>
-      <input id="car_date" type="text" name="date" [(ngModel)]="vehicle.date" placeholder="date" class="form-control">
+
+      <mat-form-field class="bg-light rounded my-2" appearance="fill">
+        <mat-label class="text-dark">Choose a date</mat-label>
+        <input [(ngModel)]="vehicle.date" name="date"
+          class="border-bottom validate-date" matInput [matDatepicker]="picker">
+
+        <mat-datepicker-toggle matSuffix [for]="picker">
+          <mat-icon class="text-dark"
+           matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+
+      </mat-form-field><br>
+
+
+      <!-- <label for="car_date">vehicle date</label>
+      <input id="car_date" type="datetime" name="date" [(ngModel)]="vehicle.date" placeholder="date" class="form-control"> -->
 
       <label for="car_price">vehicle price</label>
-      <input id="car_price" type="text" name="price" [(ngModel)]="vehicle.price" placeholder="price" class="form-control">
+      <input id="car_price" type="number" name="price" [(ngModel)]="vehicle.price" placeholder="price" class="form-control">
 
       <label for="car_engine">vehicle engine</label>
-      <input id="car_engine"  type="text" name="carEngine" [(ngModel)]="vehicle.carEngine" placeholder="car engine" class="form-control">
+      <input id="car_engine"  type="number" name="carEngine" [(ngModel)]="vehicle.carEngine" placeholder="car engine" class="form-control">
 
       <label for="car_description">vehicle description</label>
       <input id="car_description" type="text" name="description" [(ngModel)]="vehicle.description" placeholder="description" class="form-control">
@@ -37,7 +51,7 @@
 
   <div class="row" >
 <!-- https://fontawesome.com/icons?d=gallery -->
-      <div class="col-sm-4" *ngFor="let elem of vehicles">
+      <div class="col-sm-4 " *ngFor="let elem of vehicles">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title"><i class="fas fa-car"></i> {{elem.brand}}</h5>
@@ -58,6 +72,6 @@
         </div>
       </div>
 
-  </div>  
+  </div>
 
 

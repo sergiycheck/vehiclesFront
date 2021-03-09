@@ -1,4 +1,9 @@
-export interface messageDto{
-  user:string;
-  data:string;
+export class messageDto{
+  constructor(
+    public user?:string,
+    public data?:string
+  ){
+
+  }
+
 }
