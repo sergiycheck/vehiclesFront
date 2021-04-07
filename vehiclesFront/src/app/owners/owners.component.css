@@ -1,0 +1,61 @@
+.main-info{
+  position: relative;
+}
+.main-info span{
+  font-size:smaller;
+}
+
+.row:nth-child(1) .user-popup{
+  top:30%;
+}
+
+.user-popup{
+
+  display: none;
+  position: absolute;
+  right: -50%;
+  top:-120%;
+  z-index: 1;
+
+  filter: alpha(opacity=0);
+  opacity: 0;
+  -webkit-transition: all 1s ease-in-out;
+  -moz-transition: all 1s ease-in-out;
+   -ms-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+       transition: all 1s ease-in-out;
+}
+/* try to apply this animation */
+/* https://stackoverflow.com/questions/21341157/css-sibling-selector-w-hover */
+.show-popup:hover{
+  cursor: pointer;
+}
+.show-popup:hover .user-popup{
+  display:flex;
+  flex-direction: column;
+
+  zoom: 1;
+  filter: alpha(opacity=100);
+  opacity: 1;
+}
+
+.add-friend{
+  background-image: url('../../assets/imgs/outline_person_add_black_24dp.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 36px;
+  width: 36px;
+}
+
+.send-message{
+  background-image: url('../../assets/imgs/outline_send_black_24dp.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 36px;
+  width: 36px;
+}
+
+
+.underline:hover{
+  text-decoration: underline;
+}

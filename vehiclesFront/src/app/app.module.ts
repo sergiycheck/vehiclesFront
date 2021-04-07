@@ -21,7 +21,9 @@ import { MatInputModule } from "@angular/material/input";
 import { MatNativeDateModule, MatRippleModule } from "@angular/material/core";
 import { VehicleChildComponent } from './vehicle-child/vehicle-child.component';
 
-import {VehicleChildListComponent} from './vehicle-child/vehicle-child-list.component'
+import {VehicleChildListComponent} from './vehicle-child/vehicle-child-list.component';
+import { OwnersComponent } from './owners/owners.component';
+import { UserProfileComponent } from './user-profile/user-profile.component'
 
 export function tokenCustomGetter(){
   let token = localStorage.getItem("jwt");
@@ -38,7 +40,9 @@ export function tokenCustomGetter(){
     MyLoginComponent,
     UserChatComponent,
     VehicleChildComponent,
-    VehicleChildListComponent
+    VehicleChildListComponent,
+    OwnersComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

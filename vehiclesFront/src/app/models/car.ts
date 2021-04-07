@@ -1,4 +1,4 @@
-import { Iowner } from "./owner";
+import { Possessor } from "./Possessor";
 
 export class Car{
     constructor(

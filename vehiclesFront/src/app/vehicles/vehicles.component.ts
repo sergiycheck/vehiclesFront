@@ -35,7 +35,7 @@ viewTypes:any[]=
       class:'btn btn-transparent m-2 list-view-btn'
     }
   ];
-currentViewType:string='list-view';
+currentViewType:string='grid-view';
 
 public userCanAccess:boolean=false;
 
