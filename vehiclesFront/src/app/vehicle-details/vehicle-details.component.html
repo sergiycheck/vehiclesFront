@@ -5,24 +5,28 @@
     <div class="row" >
         <div class="col-sm-5 offset-sm-3">
             <div class="card">
-                <div class="card-body">
-                <h5 class="card-title"><i class="fas fa-car"></i> {{vehicle.brand}}</h5>
-                <p class="card-text">
-                    <i class="fad fa-badge-dollar"></i> Price: {{vehicle.price| currency }}<br>
-                    <i class="fas fa-barcode"></i> UniqueNumber: {{vehicle.uniqueNumber}}<br>
-                    <i class="fas fa-fill-drip"></i> Color: {{vehicle.color}}<br>
-                    <i class="fas fa-cogs"></i> Engine: {{vehicle.carEngine}}<br>
-                    <i class="fas fa-hourglass-end"></i> Date: {{vehicle.date | date}}<br>
-                    <i class="fas fa-tachometer-alt"></i> Drive: {{vehicle.drive}}<br>
-                    <i class="fad fa-tire"></i> Transmisstion: {{vehicle.transmision}}<br>
-                </p>
-                <p class="card-text">{{vehicle.description}}</p>
-                </div>
+              <img
+              class="img-fluid img-rounded cursor-poiner"
+              [src]="vehicle.imagePath"
+              alt="">
+              <div class="card-body">
+              <h5 class="card-title"><i class="fas fa-car"></i> {{vehicle.brand}}</h5>
+              <p class="card-text">
+                  <i class="fad fa-badge-dollar"></i> Price: {{vehicle.price| currency }}<br>
+                  <i class="fas fa-barcode"></i> UniqueNumber: {{vehicle.uniqueNumber}}<br>
+                  <i class="fas fa-fill-drip"></i> Color: {{vehicle.color}}<br>
+                  <i class="fas fa-cogs"></i> Engine: {{vehicle.carEngine}}<br>
+                  <i class="fas fa-hourglass-end"></i> Date: {{vehicle.date | date}}<br>
+                  <i class="fas fa-tachometer-alt"></i> Drive: {{vehicle.drive}}<br>
+                  <i class="fad fa-tire"></i> Transmisstion: {{vehicle.transmision}}<br>
+              </p>
+              <p class="card-text">{{vehicle.description}}</p>
             </div>
+          </div>
         </div>
 
 
-    </div>  
+    </div>
 
     <div class="row justify-content-center mt-3" >
         <div class="col-sm-9">
@@ -113,6 +117,6 @@
             </div>
 
         </div>
-        
+
     </div>
 </div>

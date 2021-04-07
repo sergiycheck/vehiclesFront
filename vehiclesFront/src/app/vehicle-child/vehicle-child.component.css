@@ -1,0 +1,44 @@
+.img-rounded{
+  border-radius: 13px 13px 13px 13px !important;
+  -moz-border-radius: 13px 13px 13px 13px !important;
+  -webkit-border-radius: 13px 13px 13px 13px !important;
+  border: 0px solid #000000 !important;
+
+}
+.parent-height{
+  position: relative;
+  /* height: 200px; */
+}
+
+@media (min-width:1050px) {
+  .vehicle-info-panel{
+    display: flex;
+    flex-direction: row;
+    /* background-color: aqua; */
+    justify-content: space-between;
+  }
+  .main-info{
+    display: flex;
+    justify-content: space-around;
+    flex-grow: 1;
+  }
+  .additional-info{
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 4;
+  }
+}
+@media (max-width:1050px) {
+  /* .vehicle-info-panel{
+    background-color: blueviolet;
+  } */
+  .additional-info{
+    display: none;
+  }
+}
+.cursor-poiner:hover{
+  cursor: pointer;
+}
+.underline:hover{
+  text-decoration: underline;
+}

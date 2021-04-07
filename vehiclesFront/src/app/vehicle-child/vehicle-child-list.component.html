@@ -1,0 +1,87 @@
+<div class="row m-5 p-2 ">
+
+  <div class="col-md-4 col-sm-10 parent-height">
+    <img
+    routerLink="/vehicle-details/{{elem.id}}"
+    class="img-fluid img-rounded cursor-poiner"
+    [src]="elem.imagePath?elem.imagePath:''"
+    alt="">
+  </div>
+
+  <div class="col-md-8 col-sm-10 d-flex flex-column justify-content-between">
+
+    <div class="cursor-poiner">
+
+      <div class="d-flex justify-content-between align-items-center">
+
+        <h2 class="underline"
+          routerLink="/vehicle-details/{{elem.id}}">
+          <i class="fas fa-car"></i> {{elem.brand}}
+        </h2>
+
+        <a *ngIf="userCanAccess" (click)="delete(elem.id)" class="btn btn-danger ">
+          <i class="fas fa-window-close"></i>
+        </a>
+
+      </div>
+
+
+      <div class="vehicle-info-panel">
+
+        <div class="main-info">
+          <div class="">
+            <h2>Price</h2>
+            <p>{{elem.price| currency }}</p>
+          </div>
+          <div class="">
+            <h2>UniqueNumber</h2>
+            <p>{{elem.uniqueNumber}}</p>
+          </div>
+        </div>
+
+        <div class="additional-info">
+          <div class="">
+            <h2>Color</h2>
+            <p>{{elem.color}}</p>
+          </div>
+          <div class="">
+            <h2>Engine</h2>
+            <p>{{elem.carEngine}}</p>
+          </div>
+
+          <div class="">
+            <h2>Drive</h2>
+            <p>{{elem.drive}}</p>
+          </div>
+          <div class="">
+            <h2>Transmisstion</h2>
+            <p>{{elem.transmision}}</p>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+    <div class="d-flex justify-content-between align-items-center">
+
+      <div class="text-muted ">
+        <p>{{elem.date | date}}</p>
+      </div>
+
+      <div>
+        <a *ngIf="userCanAccess" (click)="editCar(elem)" class="btn btn-warning">Update</a>
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+

@@ -1,6 +1,6 @@
 
-  <h2>Vehicles list</h2>
-  <input type="button" value="create car" class="btn btn-primary" (click)="createCar()">
+
+
 
   <div *ngIf="showUpdatePane">
       <label for="car_brand">vehicle brand</label>
@@ -50,27 +50,70 @@
 
 
   <div class="row" >
-<!-- https://fontawesome.com/icons?d=gallery -->
-      <div class="col-sm-4 " *ngFor="let elem of vehicles">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><i class="fas fa-car"></i> {{elem.brand}}</h5>
-            <p class="card-text">
-              <i class="fad fa-badge-dollar"></i> Price: {{elem.price| currency }}<br>
-              <i class="fas fa-barcode"></i> UniqueNumber: {{elem.uniqueNumber}}<br>
-              <i class="fas fa-fill-drip"></i> Color: {{elem.color}}<br>
-              <i class="fas fa-cogs"></i> Engine: {{elem.carEngine}}<br>
-              <i class="fas fa-hourglass-end"></i> Date: {{elem.date | date}}<br>
-              <i class="fas fa-tachometer-alt"></i> Drive: {{elem.drive}}<br>
-              <i class="fad fa-tire"></i> Transmisstion: {{elem.transmision}}<br>
-            </p>
-            <p class="card-text">{{elem.description}}</p>
-            <a routerLink="/vehicle-details/{{elem.id}}">Details</a>
-            <a (click)="editCar(elem)" class="btn btn-warning">Update</a>
-            <a (click)="delete(elem.id)" class="btn btn-danger "><i class="fas fa-window-close"></i></a>
-          </div>
-        </div>
+
+    <div class="row">
+
+      <div class="col">
+        <input  *ngIf="isUserAuthenticated()"  type="button" value="create car" class="btn btn-primary" (click)="createCar()">
       </div>
+
+      <div class="col d-flex justify-content-end">
+
+
+        <div>
+          <label *ngFor="let viewType of viewTypes">
+            <div>
+              <input class="btn-check" type="radio"
+                [id]="viewType.id" autocomplete="off"
+                [(ngModel)]="currentViewType" [value]="viewType.viewTypeValue"
+                (click)="handleViewRadioChange($event)"
+                >
+              <label [class]="viewType.class" [for]="viewType.id"></label>
+            </div>
+          </label>
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+<!-- https://fontawesome.com/icons?d=gallery -->
+
+
+  <div [ngSwitch]="currentViewType">
+
+    <div class="row" *ngSwitchCase="'grid-view'">
+
+      <app-vehicle-child
+      class="col-sm-4 mt-2"
+      *ngFor="let elem of vehicles"
+      [elem]="elem"
+      [userCanAccess]="userCanAccess"
+      (isUserAuthenticatedRequest)="isUserAuthenticated()"
+      (deleteRequest)="delete($event)"
+      (editCarRequest)="editCar($event)"
+    ></app-vehicle-child>
+
+    </div>
+    <div *ngSwitchCase="'list-view'">
+
+      <app-vehicle-child-list
+        class="col-sm-10 mt-2"
+        *ngFor="let elem of vehicles"
+        [elem]="elem"
+        [userCanAccess]="userCanAccess"
+        (isUserAuthenticatedRequest)="isUserAuthenticated()"
+        (deleteRequest)="delete($event)"
+        (editCarRequest)="editCar($event)"
+      ></app-vehicle-child-list>
+
+    </div>
+
+  </div>
+
+
 
   </div>
 
