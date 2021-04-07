@@ -7,3 +7,6 @@ export const refreshTokenPath = baseUrl+'/identity/refresh';
 export const getUserName = baseUrl+'/identity/get-user';
 
 export const chatUrl = baseUrl+'/chat';
+
+export const getVehiclesByOwner = vehiclesUrl+'/get_cars_by_owner';
+

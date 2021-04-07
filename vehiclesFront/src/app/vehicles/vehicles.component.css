@@ -1,0 +1,14 @@
+.grid-view-btn{
+  background-image: url('../../assets/imgs/outline_grid_view_black_36dp.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 36px;
+  width: 36px;
+}
+.list-view-btn{
+  background-image: url('../../assets/imgs/outline_view_list_black_36dp.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 36px;
+  width: 36px;
+}

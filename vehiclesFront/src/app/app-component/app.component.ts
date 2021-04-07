@@ -1,4 +1,4 @@
-import { Component, OnInit,Renderer2 } from '@angular/core';
+import { Component, OnInit,Renderer2, ViewEncapsulation } from '@angular/core';
 import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import {UserDataService} from '../services/user.data.service';
@@ -9,7 +9,8 @@ declare function addRemoveClass():any; //run in myJsFile.js
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  encapsulation:ViewEncapsulation.None
 })
 
 export class AppComponent implements OnInit {

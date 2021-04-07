@@ -1,0 +1,60 @@
+<div class="row p-2">
+
+  <div
+    *ngFor="let user of possessors"
+    class="row ">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 m-2  p-3 bg-body shadow rounded">
+
+      <div class="d-flex flex-row justify-content-between">
+
+        <div class="main-info d-flex flex-column ">
+
+          <div class="show-popup cursor-poiner underline">
+
+            <div class="user-popup rounded bg-white shadow">
+              <div class="user-popup-info  d-flex">
+
+                <div
+                  routerLink='/owners/{{user.id}}'
+                  class="m-2">user image</div>
+
+                <div class="popup-info m-2">
+                  <h2
+                  routerLink='/owners/{{user.id}}'
+                    >{{user.name}}</h2>
+                </div>
+              </div>
+              <div class="d-flex">
+                <button class="btn btn-primary m-2 d-flex align-items-center">
+                  <span class="text-nowrap">add friend</span>
+                  <i class=" mx-2 d-inline-block add-friend"></i>
+                </button>
+                <button class="btn btn-primary  m-2 d-flex align-items-center">
+                  <span class="text-nowrap">send message</span>
+                  <i class=" mx-2 d-inline-block  send-message"></i>
+                </button>
+              </div>
+            </div>
+
+            <h2
+              routerLink='/owners/{{user.id}}'
+              >{{user.name?user.name:'unnamed user'}} {{user.surName}}</h2>
+          </div>
+
+          <h4>lives in {{user.location}}</h4>
+          <h5>{{user.carOwnerPhone}}</h5>
+        </div>
+
+        <div class="additional-info  d-flex flex-column justify-content-between">
+
+          <button type="button" class="btn btn-light add-friend"></button>
+          <button type="button" class="btn btn-light send-message"></button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>

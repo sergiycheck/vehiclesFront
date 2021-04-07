@@ -1,5 +1,5 @@
 function addRemoveClass(){
-    let mainContainer = document.querySelector('.wrapper');
+    let mainContainer = document.querySelector('.container-fluid');
     mainContainer.classList.toggle('nigthMode');
 
     const cards = document.querySelectorAll('.card');
@@ -7,6 +7,10 @@ function addRemoveClass(){
     Array.from(cards).forEach(c=>{
       c.classList.toggle('bg-dark');
       c.classList.toggle('text-white');
+      c.classList.toggle('border');
+      c.classList.toggle('border-white');
+      c.classList.toggle('border-2');
+      c.classList.toggle('rounded');
     });
 
 }
