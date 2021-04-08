@@ -35,7 +35,7 @@ viewTypes:any[]=
       class:'btn btn-transparent m-2 list-view-btn'
     }
   ];
-currentViewType:string='grid-view';
+currentViewType:string='list-view';
 
 public userCanAccess:boolean=false;
 
@@ -96,11 +96,9 @@ public userCanAccess:boolean=false;
     .subscribe(
       (response:Response)=>{
         this.vehicles=response.data
-        this.vehicles?.forEach(v=>
-        {
-          v.imagePath = jsonVehiclePath.data.find(img=>img.uniqueNumber==v.uniqueNumber).path;
+        this.vehicles.forEach(vehicle=>{
+          vehicle.imageData = `data:${vehicle.imgFile.contentType};base64,${vehicle.imgFile.fileContents}`
         });
-
       });
 
 

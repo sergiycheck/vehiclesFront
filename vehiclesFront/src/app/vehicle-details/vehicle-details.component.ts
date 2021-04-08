@@ -31,10 +31,8 @@ export class VehicleDetailsComponent implements OnInit {
   getVehicle():void{
     this.carService.getCar(this.id)
     .subscribe(response => {
-      this.vehicle =response.data;
-
-      this.vehicle.imagePath = jsonVehiclePath.data.find(
-        img=>img.uniqueNumber==this.vehicle.uniqueNumber)?.path;
+      this.vehicle = response.data;
+      this.vehicle.imageData = `data:${this.vehicle.imgFile.contentType};base64,${this.vehicle.imgFile.fileContents}`
     });
   }
   goBack():void{

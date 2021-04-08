@@ -12,6 +12,8 @@ export class Car{
         public description?:string,
         public transmision?:string,//transmision
         public drive?:string,
-        public imagePath?:string
+        public imgFile?:any,
+        public imageData?:any
     ){}
 }
+

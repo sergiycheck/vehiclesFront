@@ -62,13 +62,10 @@ export class UserProfileComponent implements OnInit {
     .subscribe(
       (response:Response)=>{
         this.vehicles=response.data
-        this.vehicles?.forEach(v=>
-        {
-          v.imagePath = jsonVehiclePath.data
-            .find(img=>img.uniqueNumber==v.uniqueNumber)?.path;
-        });
-        // console.log(this.vehicles);
 
+        this.vehicles.forEach(vehicle=>{
+          vehicle.imageData = `data:${vehicle.imgFile.contentType};base64,${vehicle.imgFile.fileContents}`
+        });
       });
   }
 
