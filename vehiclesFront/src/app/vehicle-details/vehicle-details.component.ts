@@ -5,8 +5,6 @@ import {CarDataService  } from "../services/car.data.service";
 import{ActivatedRoute} from '@angular/router';
 import {Response} from '../models/response';
 
-import * as jsonVehiclePath from '../../assets/data/vehiclePath.json'
-
 @Component({
   selector: 'app-vehicle-details',
   templateUrl: './vehicle-details.component.html',

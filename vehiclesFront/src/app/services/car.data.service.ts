@@ -35,20 +35,34 @@ export class CarDataService extends BaseDataService {
     );
   }
 
-  createCar(car:Car):Observable<any>{
-    return this.http.post(`${vehiclesUrl}/create`,car,this.httpOptions)
+  createCar(formData):Observable<any>{
+    return this.http.post(
+      `${vehiclesUrl}/create`,
+      formData,
+      {
+        reportProgress:true,
+        observe: 'events'
+      })
       .pipe(
-        tap((car:Car) => console.log(`added car w/ id =${car.id}`)),
+        // tap((car:Car) => console.log(`added car w/ id =${car.id}`)),
         catchError(this.handleError<Car>(`createCar`))
       )
   }
-  updateCar(car:Car):Observable<any>{
-    return this.http.put(`${vehiclesUrl}/update/${car.id}`,car,this.httpOptions)
+  updateCar(id,formData):Observable<any>{
+    return this.http.put(
+      `${vehiclesUrl}/update/${id}`,
+      formData,
+      {
+        reportProgress:true,
+        observe: 'events'
+      })
     .pipe(
-      tap(_ => console.log(`updated car id =${car.id}`)),
+      tap(_ => console.log(`updated car id =${id}`)),
       catchError(this.handleError<any>(`updatedCar`))
     )
   }
+
+
   deleteCar(id:number):Observable<any>{
     return this.http.delete(`${vehiclesUrl}/delete/${id}`,this.httpOptions)
     .pipe(

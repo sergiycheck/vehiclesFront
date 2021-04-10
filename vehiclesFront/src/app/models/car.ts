@@ -12,8 +12,21 @@ export class Car{
         public description?:string,
         public transmision?:string,//transmision
         public drive?:string,
+
         public imgFile?:any,
         public imageData?:any
     ){}
 }
 
+export interface ICar{
+  id:number,
+  uniqueNumber:string,
+  brand:string,
+  color:string,
+  date:Date,
+  price:number,
+  carEngine:number,
+  description:string,
+  transmision:string,
+  drive:string;
+}

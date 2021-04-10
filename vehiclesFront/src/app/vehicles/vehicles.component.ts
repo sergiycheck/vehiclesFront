@@ -6,8 +6,8 @@ import {Response} from '../models/response';
 import { AuthGuard } from "../guards/auth-guard.service";
 import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
+import { HttpEvent,HttpEventType } from '@angular/common/http';
 
-import * as jsonVehiclePath from '../../assets/data/vehiclePath.json'
 
 declare function dateValidator():any;
 
@@ -38,6 +38,10 @@ viewTypes:any[]=
 currentViewType:string='list-view';
 
 public userCanAccess:boolean=false;
+
+public uploadImgProgress:number;
+public uploadImgMessage:string;
+
 
   constructor(
     private carService:CarDataService,
@@ -78,7 +82,27 @@ public userCanAccess:boolean=false;
     this.showUpdatePane=true;
     this.refresh();
     dateValidator();
+
+    this.assignVehicleTest();
+
   }
+
+  private assignVehicleTest(){
+    let vehicleTest = this.vehicles[0];
+    this.vehicle = new Car(
+      null,
+      "vevev0-12112",
+      "honda",
+      vehicleTest.color,
+      vehicleTest.date,
+      vehicleTest.price,
+      vehicleTest.carEngine,
+      "test descriptions",
+      vehicleTest.transmision,
+      vehicleTest.drive
+    )
+  }
+
   cancel():void{
     this.showUpdatePane=false;
   }
@@ -96,6 +120,7 @@ public userCanAccess:boolean=false;
     .subscribe(
       (response:Response)=>{
         this.vehicles=response.data
+        console.log('this.vehicles.length ',this.vehicles.length);
         this.vehicles.forEach(vehicle=>{
           vehicle.imageData = `data:${vehicle.imgFile.contentType};base64,${vehicle.imgFile.fileContents}`
         });
@@ -104,9 +129,9 @@ public userCanAccess:boolean=false;
 
   }
 
-  save():void{
+  save(files):void{
     if(this.vehicle.id==null){
-      this.add(this.vehicle);
+      this.add(this.vehicle,files);
     }else{
       this.update(this.vehicle);
     }
@@ -117,15 +142,85 @@ public userCanAccess:boolean=false;
     this.vehicle=new Car();
   }
   update(car:Car):void{
-    this.carService.updateCar(car)
-    .subscribe(()=>this.getCars());
+
+    this.uploadImgProgress =null;
+    const formData = new FormData();
+    if(!this.fileToUpload){
+      console.log('no img selected for vehicle ',car.brand);
+    }else{
+
+      Object.entries(car).forEach(([key,data])=>{
+        if(key!='imgFile' && key!='imageData' ){
+          formData.append(key,data);
+        }
+      });
+
+      formData.append('file', this.fileToUpload, this.fileToUpload.name);
+    }
+    this.carService.updateCar(car.id,formData)
+    .subscribe((event)=>{
+
+      var getCarsCallback = (data?: any) : void => {
+        this.getCars()
+      }
+      this.handleEventUpload(event,getCarsCallback);
+
+      // this.getCars()
+    });
   }
 
-  add(car:Car):void{
-    this.carService.createCar(car)
-    .subscribe(s_car=>{
-      this.vehicles.push(s_car.data);
+  fileToUpload: File = null;
+  handleFileInput(files: FileList) {
+      this.fileToUpload = files.item(0);
+  }
+
+
+  add(car:Car,carImgFiles):void{
+
+    this.uploadImgProgress =null;
+
+    const formData = new FormData();
+    if(carImgFiles.length==0){
+      console.log('no img selected for vehicle ',car.brand);
+    }else{
+      let fileToUpload = <File>carImgFiles[0];
+
+      Object.entries(car).forEach(([key,data])=>{
+
+        if(key!='id' && key!='imgFile' && key!='imageData' ){
+          formData.append(key,data);
+        }
+
+      });
+      formData.append('file', fileToUpload, fileToUpload.name);
+
+    }
+
+    this.carService.createCar(formData)
+    .subscribe((event)=>{
+
+      var pushCallback = (data?: any) : void => {
+        this.vehicles.push(data);
+      }
+      this.handleEventUpload(event,pushCallback);
+
+      // if (event.type === HttpEventType.UploadProgress)
+      //   this.uploadImgProgress = Math.round(100 * event.loaded / event.total);
+      // else if (event.type === HttpEventType.Response) {
+      //   this.uploadImgMessage = 'Upload success.';
+      //   this.vehicles.push(event.body.data);
+      // }
+
     })
+  }
+
+  private handleEventUpload(event,callBack:(args?:any)=>any){
+    if (event.type === HttpEventType.UploadProgress){
+      this.uploadImgProgress = Math.round(100 * event.loaded / event.total);
+    }else if (event.type === HttpEventType.Response) {
+      this.uploadImgMessage = 'Upload success.';
+      callBack(event.body.data);
+    }
   }
 
   async delete(id:number):Promise<void>{

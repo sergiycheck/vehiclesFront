@@ -7,7 +7,6 @@ import {Possessor } from "../models/possessor";
 import { Car } from "../models/car";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
-import * as jsonVehiclePath from '../../assets/data/vehiclePath.json'
 
 @Component({
   selector: 'app-user-profile',
