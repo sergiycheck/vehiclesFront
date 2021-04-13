@@ -50,3 +50,13 @@ function dateValidator(){
 
 
 }
+
+
+function showLoginModal(){
+  const overlayElement = document.querySelector(".overlay");
+  overlayElement.style.height = "100%";
+}
+function hideLoginModal(){
+  const overlayElement = document.querySelector(".overlay");
+  overlayElement.style.height = "0%";
+}

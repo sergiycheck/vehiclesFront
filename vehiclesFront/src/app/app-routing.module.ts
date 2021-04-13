@@ -8,13 +8,15 @@ import {UserChatComponent} from './user-chat/user-chat.component';
 import {OwnersComponent} from './owners/owners.component'
 import {UserProfileComponent} from './user-profile/user-profile.component'
 import {AppComponent} from './app-component/app.component';
+import {AppAuthComponent} from './app.auth.component'
 
 const routes: Routes = [
   {path:'app',component:AppComponent},
+  {path:'app-auth',component:AppAuthComponent},
   {path:'vehicles',component:VehiclesComponent},
-  {path:'',redirectTo: '/app',pathMatch: 'full'},//default route
+  {path:'',redirectTo: '/app-auth',pathMatch: 'full'},//default route
   {path:'vehicle-details/:id',component:VehicleDetailsComponent,canActivate:[AuthGuard]},//check if token is expired
-  {path:'auth',component:MyLoginComponent},
+  // {path:'auth',component:MyLoginComponent},
   {path:'chat',component:UserChatComponent},
   {path:'owners',component:OwnersComponent},
   {path:'owners/:id',component:UserProfileComponent},

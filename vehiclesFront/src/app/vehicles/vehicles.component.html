@@ -137,7 +137,8 @@
 
       [vehicle]="elem.dataResource"
       [userCanAccess]="isAuthenticated"
-      (isUserAuthenticatedRequest)="isUserAuthenticated()"
+
+
       (deleteRequest)="delete($event)"
       (editCarRequest)="editCar($event)"
     ></app-vehicle-child>
@@ -148,12 +149,15 @@
       <app-vehicle-child-list
         class="col-sm-10 mt-2"
         *ngFor="let elem of vehicles"
+
         [token]="getToken()"
+
         [carDataService]="carService"
         [vehicle]="elem.dataResource"
         [userCanAccess]="isAuthenticated"
 
-        (isUserAuthenticatedRequest)="isUserAuthenticated()"
+
+
         (deleteRequest)="delete($event)"
         (editCarRequest)="editCar($event)"
       ></app-vehicle-child-list>

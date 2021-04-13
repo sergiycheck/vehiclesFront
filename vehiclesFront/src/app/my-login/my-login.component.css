@@ -1,3 +1,40 @@
+
+
+
+.overlay {
+  height: 0%;
+  /* height: 100%; */
+  width: 100%;
+  position: fixed;
+  z-index: 1050;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.572);
+
+  overflow-x: hidden;
+	overflow-y: hidden;
+  transition: 0.2s;
+}
+
+.overlay-content{
+  position: relative;
+  width: 100%;
+	top:10%;
+}
+
+
+.wrapper-login {
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+
+
 a {
   color: #92badd;
   display:inline-block;
@@ -15,19 +52,6 @@ h2 {
   color: #cccccc;
 }
 
-
-
-/* STRUCTURE */
-
-.wrapper {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  min-height: 100%;
-  padding: 20px;
-}
 
 #formContent {
   -webkit-border-radius: 10px 10px 10px 10px;

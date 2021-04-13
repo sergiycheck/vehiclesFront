@@ -6,6 +6,9 @@ import { Observable,of } from 'rxjs';
 import {refreshTokenPath} from '../configs/api-endpoint.constants';
 import {catchError,map,tap} from 'rxjs/operators';
 
+
+declare function showLoginModal():any;
+
 export class authSuccessResponse{
   constructor(
     public token?:string,
@@ -33,6 +36,15 @@ export class AuthGuard implements CanActivate {
     })
   };
 
+  async canActivateWithoutLogin(){
+    const token = localStorage.getItem("jwt");
+    if (token && !this.jwtHelper.isTokenExpired(token)){
+      return true;
+    }
+    const isRefreshSuccessful = await this.tryRefreshToken(token);
+    return isRefreshSuccessful;
+  }
+
   async canActivate():Promise<boolean> {
     console.log("activation...")
     const token = localStorage.getItem("jwt");
@@ -43,7 +55,9 @@ export class AuthGuard implements CanActivate {
     }
     const isRefreshSuccessful = await this.tryRefreshToken(token);
     if(!isRefreshSuccessful){
-      this.router.navigate(["/auth"]);
+
+      showLoginModal();
+
     }
     return isRefreshSuccessful;
   }

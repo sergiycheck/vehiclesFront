@@ -25,6 +25,9 @@ import {VehicleChildListComponent} from './vehicle-child/vehicle-child-list.comp
 import { OwnersComponent } from './owners/owners.component';
 import { UserProfileComponent } from './user-profile/user-profile.component'
 
+import {AppAuthComponent} from './app.auth.component';
+
+
 export function tokenCustomGetter(){
   let token = localStorage.getItem("jwt");
   //console.log(`getting token...`);
@@ -34,6 +37,7 @@ export function tokenCustomGetter(){
 
 @NgModule({
   declarations: [
+    AppAuthComponent,
     AppComponent,
     VehiclesComponent,
     VehicleDetailsComponent,

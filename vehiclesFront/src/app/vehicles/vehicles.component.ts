@@ -26,8 +26,9 @@ declare function dateValidator():any;
 })
 export class VehiclesComponent
 
-  extends AppAuthComponent
-  implements OnInit {
+  // extends AppAuthComponent
+  implements OnInit
+  {
 
 public vehicles:CarResource[];
 vehicle: Car = new Car();
@@ -52,6 +53,8 @@ currentViewType:string='list-view';
 public uploadImgProgress:number;
 public uploadImgMessage:string;
 
+@Input() isAuthenticated:boolean;
+
   constructor(
     public userData:UserDataService,
     public carService:CarDataService,
@@ -61,8 +64,17 @@ public uploadImgMessage:string;
     public authGuard:AuthGuard,
   ) {
 
-    super(carService,userData,location,jwtHelper,authGuard,router)
+    // super(carService,userData,location,jwtHelper,authGuard,router)
    }
+
+   getToken=()=> localStorage.getItem("jwt");
+   setAuthenticated=()=>{
+     this.isAuthenticated=true;
+   }
+   setUnAuthenticated=()=>{
+    this.isAuthenticated=false;
+  }
+
 
   ngOnInit() {
     this.getCars();

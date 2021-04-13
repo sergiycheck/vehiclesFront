@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit,Output,EventEmitter } from '@angular/core';
+
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { NgForm } from '@angular/forms';
@@ -8,12 +10,18 @@ import { Observable,of } from 'rxjs';
 import { AuthGuard } from "../guards/auth-guard.service";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
+
 @Component({
   selector: 'app-my-login',
   templateUrl: './my-login.component.html',
   styleUrls: ['./my-login.component.css']
 })
 export class MyLoginComponent implements OnInit {
+
+  @Output() handleHideLoginPanelRequest = new EventEmitter<boolean>();
+  @Output() loginRequest = new EventEmitter();
+
+
   email:string;
   password:string;
   showLoginErrors:boolean=false;
@@ -34,15 +42,21 @@ export class MyLoginComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    console.log("refreshing from login component");
-    if(this.authGuard.canActivate()){
-      this.router.navigate(['/']);
-    }
+    // console.log("refreshing from login component");
+    // if(this.authGuard.canActivate()){
+    //   this.router.navigate(['/']);
+    // }
 
+  }
+
+  hideLoginPanel(){
+    this.handleHideLoginPanelRequest.emit();
   }
 
 
   onSubmit(form:NgForm){
+    this.hideLoginPanel();
+
     console.log(`${form.value.email} \n ${form.value.password} \n ${form.value}`);
     const credentials = JSON.stringify(form.value);
     console.log(credentials);
@@ -69,9 +83,12 @@ export class MyLoginComponent implements OnInit {
             refreshToken!=null ||
             refreshToken!=undefined||
             refreshToken!=''){
+              console.log('logined from login component');
+
               localStorage.setItem('jwt',token);
               localStorage.setItem('refreshToken',refreshToken);
-              this.router.navigate(["/"]);
+              // this.router.navigate(['']);
+              this.loginRequest.emit();
           }
         }
 
@@ -82,6 +99,8 @@ export class MyLoginComponent implements OnInit {
 
 
   }
+
+
 
   /**
  * Handle Http operation that failed.
