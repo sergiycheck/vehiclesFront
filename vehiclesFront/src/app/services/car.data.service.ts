@@ -7,6 +7,8 @@ import {catchError,map,tap} from 'rxjs/operators';
 import {Response} from '../models/response';
 import {BaseDataService} from './base.data.service';
 
+import { ICanUserAccess } from "../models/car";
+
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +50,20 @@ export class CarDataService extends BaseDataService {
         catchError(this.handleError<Car>(`createCar`))
       )
   }
+
+  canUserAccess(canUserAccessRequest:ICanUserAccess):Observable<boolean>{
+    return this.http.post(
+      `${vehiclesUrl}/canAccess`,
+      canUserAccessRequest,
+      this.httpOptions
+    ).pipe(
+      tap(
+        // _ => console.log(`can access car with id ${canUserAccessRequest.id}`)
+      ),
+      catchError(this.handleError<any>(`canUserAccess`))
+    )
+  }
+
   updateCar(id,formData):Observable<any>{
     return this.http.put(
       `${vehiclesUrl}/update/${id}`,
@@ -63,8 +79,11 @@ export class CarDataService extends BaseDataService {
   }
 
 
-  deleteCar(id:number):Observable<any>{
-    return this.http.delete(`${vehiclesUrl}/delete/${id}`,this.httpOptions)
+  deleteCar(id:number,canUserAccessRequest:ICanUserAccess):Observable<any>{
+    return this.http.post(
+      `${vehiclesUrl}/delete/${id}`,
+      canUserAccessRequest,
+      this.httpOptions)
     .pipe(
       tap(_ => console.log(`deleted car id =${id}`)),
       catchError(this.handleError<any>(`deleteCar`))

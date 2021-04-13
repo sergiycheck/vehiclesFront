@@ -7,6 +7,8 @@ import {Possessor } from "../models/possessor";
 import { Car } from "../models/car";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
+import { CarDataService } from "../services/car.data.service";
+
 
 @Component({
   selector: 'app-user-profile',
@@ -21,7 +23,9 @@ export class UserProfileComponent implements OnInit {
   public userEmail:string;
 
   constructor(
-    private userService:UserDataService,
+    public userService:UserDataService,
+    public carService:CarDataService,
+
     private location:Location,
     private route:ActivatedRoute,
     private jwtHelper:JwtHelperService,
@@ -29,9 +33,15 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.id =this.route.snapshot.paramMap.get('id');
+
     this.getUser();
     this.getUserEmail();
   }
+
+  public getToken():string{
+    return localStorage.getItem("jwt");
+  }
+
   getUser(){
     this.userService.getUserById(this.id)
     .subscribe((response:Response)=>{

@@ -18,15 +18,29 @@ export class Car{
     ){}
 }
 
-export interface ICar{
-  id:number,
-  uniqueNumber:string,
-  brand:string,
-  color:string,
-  date:Date,
-  price:number,
-  carEngine:number,
-  description:string,
-  transmision:string,
-  drive:string;
+export class CarResource{
+  constructor(
+    public dataResource:Car,
+    public canAccess?:boolean
+  ){
+
+  }
 }
+
+export interface ICanUserAccess{
+  id?:number,
+  token?:string
+}
+
+// export interface ICar{
+//   id:number,
+//   uniqueNumber:string,
+//   brand:string,
+//   color:string,
+//   date:Date,
+//   price:number,
+//   carEngine:number,
+//   description:string,
+//   transmision:string,
+//   drive:string;
+// }

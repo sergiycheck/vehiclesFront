@@ -1,8 +1,16 @@
-import { Component, OnInit,Renderer2, ViewEncapsulation } from '@angular/core';
+import { Component,
+  OnInit,Renderer2,
+  ViewEncapsulation,
+  AfterViewInit} from '@angular/core';
+
 import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import {UserDataService} from '../services/user.data.service';
 import { AuthGuard } from "../../app/guards/auth-guard.service";
+
+import {AppAuthComponent} from '../app.auth.component';
+import { CarDataService } from "../services/car.data.service";
+import {Location} from '@angular/common';
 
 declare function addRemoveClass():any; //run in myJsFile.js
 
@@ -13,59 +21,44 @@ declare function addRemoveClass():any; //run in myJsFile.js
   encapsulation:ViewEncapsulation.None
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent
+  extends AppAuthComponent
+  implements OnInit {
+
   title = 'vehiclesFront';
 
   constructor(
-    render2:Renderer2,
-    private jwtHelper:JwtHelperService,
-    private router:Router,
-    private userData:UserDataService,
-    private authGuard:AuthGuard,
-
+    public carService:CarDataService,
+    public render2:Renderer2,
+    public jwtHelper:JwtHelperService,
+    public router:Router,
+    public userData:UserDataService,
+    public  authGuard:AuthGuard,
+    public location:Location
     ){
-  }
-  userName:string;
-
-  ngOnInit(): void {
+      super(carService,userData,location,jwtHelper,authGuard,router)
   }
 
+
+
+  ngOnInit(){
+    console.clear();
+    console.log("AppComponent ngOnInit");
+  }
 
   onCheckBoxChange(){
     addRemoveClass();
   }
 
-  isUserAuthenticated():boolean{
-    const token:string = localStorage.getItem("jwt");
-    if(token && !this.jwtHelper.isTokenExpired(token)){
-      if(!this.userName){
-        this.getUserName(token);
-      }
-      return true;
-    }else{
-      if(this.jwtHelper.isTokenExpired(token)){
-        // if(this.authGuard.canActivate()){
-        //   this.userName = "";
-        // }
-        //console.log(`token expired ${token}`);
-      }
-
-    }
-    return false;
-  }
-
-  getUserName(token:string):void{
-    this.userData.getUserName(token)
-    .subscribe((response)=>{
-      this.userName = response;
-    })
-  }
 
   logOut(){
+    this.userName=null;
+
+    this.isAuthenticated = false;
     localStorage.removeItem("jwt");
     localStorage.removeItem("refreshToken");
   }
 
-  //todo revoke token
+  //todo: revoke token
 
 }

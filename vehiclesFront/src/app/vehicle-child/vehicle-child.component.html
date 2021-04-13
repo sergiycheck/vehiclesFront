@@ -5,37 +5,42 @@
     <div class="d-flex justify-content-between align-items-center">
 
       <h2 class="card-title">
-        <i class="fas fa-car"></i> {{elem.brand}}
+        <i class="fas fa-car"></i> {{vehicle.brand}}
       </h2>
 
-      <a *ngIf="userCanAccess" (click)="delete(elem.id)" class="btn btn-danger ">
+      <a *ngIf="userCanAccess && isUserAllowedForAction"
+        (click)="delete(vehicle.id)"
+        class="btn btn-danger ">
         <i class="fas fa-window-close"></i>
       </a>
 
     </div>
     <img
-    routerLink="/vehicle-details/{{elem.id}}"
+    routerLink="/vehicle-details/{{vehicle.id}}"
     class="img-fluid img-rounded cursor-poiner"
-    [src]="elem.imageData"
+    [src]="vehicle.imageData"
     alt="">
 
 
     <p class="card-text mt-2">
-      <i class="fad fa-badge-dollar"></i> Price: {{elem.price| currency }}<br>
-      <i class="fas fa-barcode"></i> UniqueNumber: {{elem.uniqueNumber}}<br>
-      <i class="fas fa-fill-drip"></i> Color: {{elem.color}}<br>
-      <i class="fas fa-cogs"></i> Engine: {{elem.carEngine}}<br>
-      <i class="fas fa-hourglass-end"></i> Date: {{elem.date | date}}<br>
-      <i class="fas fa-tachometer-alt"></i> Drive: {{elem.drive}}<br>
-      <i class="fad fa-tire"></i> Transmisstion: {{elem.transmision}}<br>
+      <i class="fad fa-badge-dollar"></i> Price: {{vehicle.price| currency }}<br>
+      <i class="fas fa-barcode"></i> UniqueNumber: {{vehicle.uniqueNumber}}<br>
+      <i class="fas fa-fill-drip"></i> Color: {{vehicle.color}}<br>
+      <i class="fas fa-cogs"></i> Engine: {{vehicle.carEngine}}<br>
+      <i class="fas fa-hourglass-end"></i> Date: {{vehicle.date | date}}<br>
+      <i class="fas fa-tachometer-alt"></i> Drive: {{vehicle.drive}}<br>
+      <i class="fad fa-tire"></i> Transmisstion: {{vehicle.transmision}}<br>
     </p>
 
-    <p class="card-text">{{elem.description}}</p>
+    <p class="card-text">{{vehicle.description}}</p>
 
     <div class="d-flex justify-content-between align-items-center">
-      <a routerLink="/vehicle-details/{{elem.id}}">Details</a>
+      <a routerLink="/vehicle-details/{{vehicle.id}}">Details</a>
 
-      <a *ngIf="userCanAccess" (click)="editCar(elem)" class="btn btn-warning">Update</a>
+      <a
+        *ngIf="userCanAccess && isUserAllowedForAction"
+        (click)="editCar(vehicle)"
+        class="btn btn-warning">Update</a>
 
     </div>
 

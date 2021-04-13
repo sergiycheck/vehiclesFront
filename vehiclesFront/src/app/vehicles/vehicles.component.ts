@@ -1,12 +1,20 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component,
+   OnInit,
+   AfterViewInit,
+   Input } from '@angular/core';
+
 import { CarDataService } from "../services/car.data.service";
 import { Car } from "../models/car";
+import {CarResource} from '../models/car';
+
 import{Location} from '@angular/common';
 import {Response} from '../models/response';
 import { AuthGuard } from "../guards/auth-guard.service";
 import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HttpEvent,HttpEventType } from '@angular/common/http';
+import {AppAuthComponent} from '../app.auth.component';
+import {UserDataService} from '../services/user.data.service';
 
 
 declare function dateValidator():any;
@@ -16,9 +24,12 @@ declare function dateValidator():any;
   templateUrl: './vehicles.component.html',
   styleUrls: ['./vehicles.component.css']
 })
-export class VehiclesComponent implements OnInit {
+export class VehiclesComponent
 
-public vehicles:Car[];
+  extends AppAuthComponent
+  implements OnInit {
+
+public vehicles:CarResource[];
 vehicle: Car = new Car();
 showUpdatePane:boolean=false;
 
@@ -37,47 +48,32 @@ viewTypes:any[]=
   ];
 currentViewType:string='list-view';
 
-public userCanAccess:boolean=false;
 
 public uploadImgProgress:number;
 public uploadImgMessage:string;
 
-
   constructor(
-    private carService:CarDataService,
-    private location:Location,
-    private router:Router,
-    private jwtHelper:JwtHelperService,
-    private authGuard:AuthGuard,
-  ) { }
+    public userData:UserDataService,
+    public carService:CarDataService,
+    public location:Location,
+    public router:Router,
+    public jwtHelper:JwtHelperService,
+    public authGuard:AuthGuard,
+  ) {
 
-  async ngOnInit() {
+    super(carService,userData,location,jwtHelper,authGuard,router)
+   }
+
+  ngOnInit() {
     this.getCars();
-    const token:string = localStorage.getItem("jwt");
-    if(token!==null){
-      await this.tryActivateToken();
-    }
-    this.isUserAuthenticated();//called only from html chunk. watches changes in sessionStorage
+
+    console.log(' VehiclesComponent ngOnInit');
+
   }
 
-  isUserAuthenticated(){
-    const token:string = localStorage.getItem("jwt");
-    if(token && !this.jwtHelper.isTokenExpired(token)){
-      this.userCanAccess = true;
-      //console.log('user canAccess',this.userCanAccess);
-      return true;
-    }
-    this.userCanAccess = false;
-    //console.log('user canAccess',this.userCanAccess);
-    return false;
-  }
-
-  async tryActivateToken(){
-    await this.authGuard.canActivate();
-  }
 
   async createCar(){
-    await this.tryActivateToken();
+
 
     this.showUpdatePane=true;
     this.refresh();
@@ -88,7 +84,7 @@ public uploadImgMessage:string;
   }
 
   private assignVehicleTest(){
-    let vehicleTest = this.vehicles[0];
+    let vehicleTest = this.vehicles[0].dataResource;
     this.vehicle = new Car(
       null,
       "vevev0-12112",
@@ -108,22 +104,33 @@ public uploadImgMessage:string;
   }
 
   async editCar(car:Car){
-    await this.tryActivateToken();
+
 
     this.showUpdatePane=true;
     this.vehicle = car;
     dateValidator();
 
   }
+
   getCars():void{
     this.carService.getCars()
     .subscribe(
       (response:Response)=>{
-        this.vehicles=response.data
-        console.log('this.vehicles.length ',this.vehicles.length);
-        this.vehicles.forEach(vehicle=>{
-          vehicle.imageData = `data:${vehicle.imgFile.contentType};base64,${vehicle.imgFile.fileContents}`
+        let responseVehicles:Car[]=response.data
+        console.log('this.vehicles.length ',responseVehicles.length);
+
+        responseVehicles.forEach(vehicle=>{
+          vehicle.imageData =`data:${vehicle.imgFile.contentType};base64,${vehicle.imgFile.fileContents}`
         });
+        //todo: set responseVehicles to this.vehicles
+
+        this.vehicles = responseVehicles.map(
+          (vehicle)=>{
+
+            return new CarResource(vehicle)
+          });
+
+
       });
 
 
@@ -141,6 +148,7 @@ public uploadImgMessage:string;
   refresh():void{
     this.vehicle=new Car();
   }
+
   update(car:Car):void{
 
     this.uploadImgProgress =null;
@@ -154,7 +162,7 @@ public uploadImgMessage:string;
           formData.append(key,data);
         }
       });
-
+      formData.append('Token',this.getToken());
       formData.append('file', this.fileToUpload, this.fileToUpload.name);
     }
     this.carService.updateCar(car.id,formData)
@@ -200,16 +208,9 @@ public uploadImgMessage:string;
     .subscribe((event)=>{
 
       var pushCallback = (data?: any) : void => {
-        this.vehicles.push(data);
+        this.vehicles.push(new CarResource(data));
       }
       this.handleEventUpload(event,pushCallback);
-
-      // if (event.type === HttpEventType.UploadProgress)
-      //   this.uploadImgProgress = Math.round(100 * event.loaded / event.total);
-      // else if (event.type === HttpEventType.Response) {
-      //   this.uploadImgMessage = 'Upload success.';
-      //   this.vehicles.push(event.body.data);
-      // }
 
     })
   }
@@ -224,11 +225,17 @@ public uploadImgMessage:string;
   }
 
   async delete(id:number):Promise<void>{
-    await this.tryActivateToken();
+
 
     console.log('deleting start ');
-    this.vehicles=this.vehicles.filter(v=>v.id!=id);
-    this.carService.deleteCar(id).subscribe();
+    this.vehicles=this.vehicles.filter(v=>v.dataResource.id!=id);
+    this.carService.deleteCar(id,
+      {
+        id:id,
+        token:this.getToken()
+      }).subscribe((response)=>{
+      console.log(response)
+    });
   }
 
   goBack():void{

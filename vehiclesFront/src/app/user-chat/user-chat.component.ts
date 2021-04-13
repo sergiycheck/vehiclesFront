@@ -31,6 +31,8 @@ export class UserChatComponent implements OnInit {
       this.addMessage(msg);
     });
   }
+
+
   private async getUserName(){
     console.log('getting username');
 
@@ -40,10 +42,12 @@ export class UserChatComponent implements OnInit {
       this.setUserName(token);
     }else{
       console.log('token is expired');
-      if(await this.authGuard.tryRefreshToken(token))
+      if(token && await this.authGuard.tryRefreshToken(token))
         this.setUserName(token);
     }
   }
+
+
   private setUserName(token){
     let decodedToken = this.jwtHelper.decodeToken(token);
     console.log('email \t',decodedToken.email);

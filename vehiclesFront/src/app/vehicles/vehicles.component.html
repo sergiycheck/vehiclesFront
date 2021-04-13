@@ -1,7 +1,5 @@
 
 
-
-
   <div *ngIf="showUpdatePane">
 
     <div class="row">
@@ -98,7 +96,7 @@
     <div class="row">
 
       <div class="col">
-        <input  *ngIf="isUserAuthenticated()"
+        <input  *ngIf="isAuthenticated && getToken()"
           type="button" value="create car" class="btn btn-primary" (click)="createCar()">
       </div>
 
@@ -134,8 +132,11 @@
       <app-vehicle-child
       class="col-sm-4 mt-2"
       *ngFor="let elem of vehicles"
-      [elem]="elem"
-      [userCanAccess]="userCanAccess"
+      [token]="getToken()"
+      [carDataService]="carService"
+
+      [vehicle]="elem.dataResource"
+      [userCanAccess]="isAuthenticated"
       (isUserAuthenticatedRequest)="isUserAuthenticated()"
       (deleteRequest)="delete($event)"
       (editCarRequest)="editCar($event)"
@@ -147,8 +148,11 @@
       <app-vehicle-child-list
         class="col-sm-10 mt-2"
         *ngFor="let elem of vehicles"
-        [elem]="elem"
-        [userCanAccess]="userCanAccess"
+        [token]="getToken()"
+        [carDataService]="carService"
+        [vehicle]="elem.dataResource"
+        [userCanAccess]="isAuthenticated"
+
         (isUserAuthenticatedRequest)="isUserAuthenticated()"
         (deleteRequest)="delete($event)"
         (editCarRequest)="editCar($event)"

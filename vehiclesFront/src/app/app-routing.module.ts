@@ -7,10 +7,12 @@ import { AuthGuard } from "./guards/auth-guard.service";
 import {UserChatComponent} from './user-chat/user-chat.component';
 import {OwnersComponent} from './owners/owners.component'
 import {UserProfileComponent} from './user-profile/user-profile.component'
+import {AppComponent} from './app-component/app.component';
 
 const routes: Routes = [
+  {path:'app',component:AppComponent},
   {path:'vehicles',component:VehiclesComponent},
-  {path:'',redirectTo: '/vehicles',pathMatch: 'full'},//default route
+  {path:'',redirectTo: '/app',pathMatch: 'full'},//default route
   {path:'vehicle-details/:id',component:VehicleDetailsComponent,canActivate:[AuthGuard]},//check if token is expired
   {path:'auth',component:MyLoginComponent},
   {path:'chat',component:UserChatComponent},
