@@ -53,15 +53,29 @@ export class AppAuthComponent implements OnInit, AfterViewInit,OnDestroy {
     this.subscription = this.authService.isAuthenticatedObs$.subscribe(isAuth=>{
       this.isAuthenticated = isAuth;
       console.log('AppAuthComponent this.isAuthenticated from subscription',this.isAuthenticated);
+      if(this.isAuthenticated){
+        console.log('getting cars from AppAuthComponent ngOnInit from  subscription');
+        this.vehiclesComponent.getCars();
+      }
 
     });
 
   }
 
   async ngAfterViewInit(){
-    this.isAuthenticated = await this.authGuard.canActivateWithoutLogin();
-    this.authService.setAuthentication(this.isAuthenticated);
-    console.log(' AppAuthComponent ngAfterViewInit');
+    if(!this.isAuthenticated){
+
+      this.isAuthenticated = await this.authGuard.canActivateWithoutLogin();
+      this.authService.setAuthentication(this.isAuthenticated);
+      console.log(' AppAuthComponent ngAfterViewInit');
+      if(this.isAuthenticated){
+        console.log('getting cars from AppAuthComponent ngAfterViewInit');
+        this.vehiclesComponent.getCars();
+      }
+
+
+    }
+
   }
 
   ngOnDestroy(){
