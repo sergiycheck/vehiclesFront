@@ -132,7 +132,10 @@ public uploadImgMessage:string;
         console.log('this.vehicles.length ',responseVehicles.length);
 
         responseVehicles.forEach(vehicle=>{
-          vehicle.imageData =`data:${vehicle.imgFile.contentType};base64,${vehicle.imgFile.fileContents}`
+          if(vehicle.imgFile){
+            vehicle.imageData =`data:${vehicle.imgFile.contentType};base64,${vehicle.imgFile.fileContents}`
+          }
+
         });
         //todo: set responseVehicles to this.vehicles
 
