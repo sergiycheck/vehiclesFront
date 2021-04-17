@@ -125,14 +125,17 @@ export class AppComponent
 
   public async getUserName(){
     const token = this.getToken();
+
     if(token){
-      this.userName = await this.userData.getUserName(token).toPromise();
+      this.userName  = await this.userData.getUserName(token).toPromise();
 
+      if(this.userName && this.isAuthenticated){
+        console.log('AppComponent getUserName this.userName',this.userName.valueOf())
+        console.log('AppComponent this.isAuthenticated',this.isAuthenticated);
+        this.authService.setAuthentication(this.isAuthenticated);
+        this.authService.setUserName(this.userName);
+      }
 
-      console.log('AppComponent getUserName this.userName',this.userName.valueOf())
-      console.log('AppComponent this.isAuthenticated',this.isAuthenticated);
-      this.authService.setAuthentication(this.isAuthenticated);
-      this.authService.setUserName(this.userName);
 
     }
 

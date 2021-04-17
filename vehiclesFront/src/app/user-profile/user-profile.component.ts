@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+   OnInit,
+   OnDestroy } from '@angular/core';
+
 import{Location} from '@angular/common';
 import {UserDataService  } from "../services/user.data.service";
 import{ActivatedRoute} from '@angular/router';
@@ -9,18 +13,37 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 
 import { CarDataService } from "../services/car.data.service";
 
+import { Penalty } from "../models/penalty";
+
+import { Subscription } from 'rxjs';
+import {AuthorizationService} from '../services/authorization.service';
+
+declare function showLoginModal():any;
+
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent
+  implements OnInit,
+  OnDestroy {
 
   public posessor:Possessor;
   public id:string;
+
   public vehicles:Car[];
+  public penalties:Penalty[];
+
   public userEmail:string;
+
+  public showPenaltyComponent:boolean=false;
+
+  public currentPenalty:Penalty;
+
+
+  public isAuthenticated:boolean=false;
 
   constructor(
     public userService:UserDataService,
@@ -29,9 +52,44 @@ export class UserProfileComponent implements OnInit {
     private location:Location,
     private route:ActivatedRoute,
     private jwtHelper:JwtHelperService,
-  ) { }
+    private authService: AuthorizationService
+  ) {
+
+
+   }
+
+   private subscribeToauthService(){
+      this.authService.canActivateWithoutLogin().then(resp=>{
+        this.isAuthenticated = resp;
+
+        if(this.isAuthenticated){
+          this.getUserPenalties();
+        }
+
+      })
+
+
+   }
+
+  handleShowPenaltyComponent(selectedPenalty){
+
+
+    this.currentPenalty = selectedPenalty;
+    this.showPenaltyComponent=true;
+  }
+
+  handleHidePenaltyComponent(){
+
+    this.currentPenalty = null;
+    this.showPenaltyComponent=false;
+  }
 
   ngOnInit(): void {
+    console.log('ngOnInit user profile');
+
+    this.subscribeToauthService();
+
+
     this.id =this.route.snapshot.paramMap.get('id');
 
     this.getUser();
@@ -49,6 +107,8 @@ export class UserProfileComponent implements OnInit {
       // console.log('posessor', this.posessor);
     })
   }
+
+
   getUserEmail(){
     const token:string = localStorage.getItem("jwt");
     if(token && !this.jwtHelper.isTokenExpired(token)){
@@ -78,9 +138,43 @@ export class UserProfileComponent implements OnInit {
       });
   }
 
+  getUserPenalties():void{
+    if(!this.posessor){
+      return;
+    }
+    this.authService.canActivate().then( resp=>{
+      this.isAuthenticated = resp;
+
+      if(this.isAuthenticated){
+
+        this.userService.getUserPenalties(this.posessor.id)
+        .subscribe((response:Response)=>{
+          if(response){
+            this.penalties = response.data;
+
+          }else{
+            console.log('undefined response');
+          }
+        })
+
+      }
+    })
+
+
+
+
+  }
+
+
+
 
   goBack():void{
     this.location.back();
+  }
+
+  ngOnDestroy(){
+    console.log('user profile ngOnDestroy');
+    //this.subscription.unsubscribe();
   }
 
 

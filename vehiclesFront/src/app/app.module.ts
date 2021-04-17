@@ -27,6 +27,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component'
 
 import {AppAuthComponent} from './app.auth.component';
 
+import {whiteListDomains} from './configs/api-endpoint.constants';
+
+import { UserPenaltyComponent } from "./user-profile/user-penalty-component";
+
 
 export function tokenCustomGetter(){
   let token = localStorage.getItem("jwt");
@@ -46,7 +50,8 @@ export function tokenCustomGetter(){
     VehicleChildComponent,
     VehicleChildListComponent,
     OwnersComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    UserPenaltyComponent
   ],
   imports: [
     BrowserModule,
@@ -54,10 +59,10 @@ export function tokenCustomGetter(){
     MatDatepickerModule,MatNativeDateModule,MatIconModule,MatInputModule,
     AppRoutingModule,
     HttpClientModule,
-    JwtModule.forRoot({
+    JwtModule.forRoot({//preflight request
       config:{
         tokenGetter:tokenCustomGetter,
-        whitelistedDomains:["localhost:5010"],//error was here
+        whitelistedDomains:[whiteListDomains],//error was here
         blacklistedRoutes:[""]
       }
     }),

@@ -10,6 +10,8 @@ import {UserProfileComponent} from './user-profile/user-profile.component'
 import {AppComponent} from './app-component/app.component';
 import {AppAuthComponent} from './app.auth.component'
 
+
+
 const routes: Routes = [
   {path:'app',component:AppComponent},
   {path:'app-auth',component:AppAuthComponent},

@@ -31,4 +31,8 @@ export class AuthorizationService {
     canActivate(){
       return this.guard.canActivate();
     }
+
+    canActivateWithoutLogin(){
+      return this.guard.canActivateWithoutLogin();
+    }
 }

@@ -24,7 +24,10 @@ import {
       ></app-vehicles>
   `
 })
-export class AppAuthComponent implements OnInit, AfterViewInit,OnDestroy {
+export class AppAuthComponent
+  implements OnInit,
+    AfterViewInit,
+    OnDestroy {
 
   @ViewChild(VehiclesComponent)
 
@@ -50,7 +53,8 @@ export class AppAuthComponent implements OnInit, AfterViewInit,OnDestroy {
   ngOnInit(){
     console.log('AppAuthComponent ngOnInit');
 
-    this.subscription = this.authService.isAuthenticatedObs$.subscribe(isAuth=>{
+    this.subscription = this.authService
+      .isAuthenticatedObs$.subscribe(isAuth=>{
       this.isAuthenticated = isAuth;
       console.log('AppAuthComponent this.isAuthenticated from subscription',this.isAuthenticated);
       if(this.isAuthenticated){

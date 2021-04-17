@@ -7,13 +7,15 @@ import {messageDto} from '../models/messageDto';
 import {Observable, Subject,from, ConnectableObservable } from 'rxjs';
 import {catchError,map,tap} from 'rxjs/operators';
 
+import {baseApiRoute} from '../configs/api-endpoint.constants';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService extends BaseDataService {
 
   public connection  = new signalR.HubConnectionBuilder()
-  .withUrl("https://localhost:5010/chathub")
+  .withUrl(`${baseApiRoute}/chathub`)
   .configureLogging(signalR.LogLevel.Information)
   .build();
 

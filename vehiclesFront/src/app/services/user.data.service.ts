@@ -4,9 +4,20 @@ import { Observable,of } from 'rxjs';
 import {BaseDataService} from './base.data.service';
 import {catchError,map,tap} from 'rxjs/operators';
 import {getUserName} from "../configs/api-endpoint.constants";
-import {ownersUrl,getVehiclesByOwner} from "../configs/api-endpoint.constants";
+import {
+  ownersUrl,
+  getVehiclesByOwner,
+  GetPenaltiesByUserId,
+  PayPenalty
+} from "../configs/api-endpoint.constants";
+
+
 import {Response} from '../models/response';
 import { Possessor } from "../models/possessor";
+
+import { Penalty,PenaltyPayRequest } from "../models/penalty";
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -33,9 +44,35 @@ export class UserDataService extends BaseDataService {
     return this.http.post<string>(
       getUserName,
       tokenRequest,
-      this.httpOptions)
+      {
+        headers:this.httpOptions.headers
+        //.append("Authorization",`Bearer ${tokenValue}`)
+      })
     .pipe(
       catchError(this.handleError<string>('getUserName'))
+    );
+  }
+
+  public payUserPenalty(penaltyPayRequest:PenaltyPayRequest):Observable<Response>{
+    const url = PayPenalty
+      .replace('{id:int}',penaltyPayRequest.id.toString());
+
+    return this.http.post<Response>(
+      url,
+      penaltyPayRequest,
+      this.httpOptions)
+      .pipe(
+        catchError(
+          this.handleError<Response>(
+            `payUserPenalty ${penaltyPayRequest}`))
+      );
+  }
+
+  getUserPenalties(id:string):Observable<Response>{
+    const url =  GetPenaltiesByUserId.replace('{userId}',id);
+    return this.http.get<Response>(url)
+    .pipe(
+      catchError(this.handleError<Response>(`getUserPenalties ${id}`))
     );
   }
 
