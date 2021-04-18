@@ -6,7 +6,12 @@ export const baseApiRoute = 'https://'+whiteListDomains;
 export const baseUrl = baseApiRoute+'/api/v1';
 export const vehiclesUrl = baseUrl+'/vehicles';
 export const ownersUrl = baseUrl+'/owners';
+export const getOwnerByUniqueNumber = ownersUrl+'/vehicle-unique-number/{uniqueNumber}';
+
+
 export const login = baseUrl+'/identity/login';
+
+
 
 export const register = baseUrl+'/identity/register';
 

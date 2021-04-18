@@ -8,7 +8,8 @@ import {
   ownersUrl,
   getVehiclesByOwner,
   GetPenaltiesByUserId,
-  PayPenalty
+  PayPenalty,
+  getOwnerByUniqueNumber
 } from "../configs/api-endpoint.constants";
 
 
@@ -35,6 +36,15 @@ export class UserDataService extends BaseDataService {
     .pipe(
       catchError(this.handleError<Response>('getOwners'))
     );
+  }
+
+
+  getOwnerByUniqueNumber(uniqueNumber:string):Observable<Response>{
+    const url = getOwnerByUniqueNumber.replace('{uniqueNumber}',uniqueNumber);
+    return this.http.get<Response>(url)
+      .pipe(
+        catchError(this.handleError<Response>(`getOwnerByUniqueNumber ${uniqueNumber}`))
+      );
   }
 
   getUserName(tokenValue:string):Observable<string>{
