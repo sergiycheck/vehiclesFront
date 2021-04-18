@@ -108,7 +108,8 @@
             <div>
               <input class="btn-check" type="radio"
                 [id]="viewType.id" autocomplete="off"
-                [(ngModel)]="currentViewType" [value]="viewType.viewTypeValue"
+                [(ngModel)]="currentViewType"
+                [value]="viewType.viewTypeValue"
                 (click)="handleViewRadioChange($event)"
                 >
               <label [class]="viewType.class" [for]="viewType.id"></label>

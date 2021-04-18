@@ -4,6 +4,7 @@ export class Possessor{
   constructor(
     public id?:string,
     public name?:string,
+    public userName?:string,
     public surName?:string,
     public patronymic?:string,
     public carOwnerPhone?:string,

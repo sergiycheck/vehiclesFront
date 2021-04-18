@@ -67,7 +67,7 @@ h2 {
   text-align: center;
 }
 
-#formFooter {
+.formFooter {
   background-color: #f6f6f6;
   border-top: 1px solid #dce8f1;
   padding: 25px;
@@ -263,6 +263,7 @@ h2.active {
 
 .underlineHover:hover {
   color: #0d0d0d;
+  cursor: pointer;
 }
 
 .underlineHover:hover:after{
