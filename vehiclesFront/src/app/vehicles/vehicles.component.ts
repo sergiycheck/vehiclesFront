@@ -12,9 +12,11 @@ import {Response} from '../models/response';
 import { AuthGuard } from "../guards/auth-guard.service";
 import { Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { HttpEvent,HttpEventType } from '@angular/common/http';
+import { HttpEvent,HttpEventType, HttpResponse } from '@angular/common/http';
 import {AppAuthComponent} from '../app.auth.component';
 import {UserDataService} from '../services/user.data.service';
+
+import { PaginationOptions,RequestParams } from "../models/pagination-options";
 
 
 declare function dateValidator():any;
@@ -54,6 +56,10 @@ public uploadImgProgress:number;
 public uploadImgMessage:string;
 
 @Input() isAuthenticated:boolean;
+
+public paginationOptions:PaginationOptions;
+public requestParams:RequestParams;
+public availablePageSizes=[3,5,10,50];
 
   constructor(
     public userData:UserDataService,
@@ -124,11 +130,54 @@ public uploadImgMessage:string;
 
   }
 
+  handleClickNext(){
+    if(this.requestParams){
+      this.requestParams.PageNum+=1;
+      // console.log('next clickd ', this.requestParams);
+
+      this.getCars();
+    }
+  }
+
+  handleClickPrevious(){
+    if(this.requestParams && this.requestParams.PageNum>=1){
+      this.requestParams.PageNum -=1;
+      // console.log('previous clicked', this.requestParams);
+
+      this.getCars();
+    }
+  }
+
+  onChangePageSize(event){
+    if(event){
+      this.requestParams.PageSize = event;
+
+      // console.log(this.requestParams);
+      this.getCars();
+    }
+
+  }
+
+
   getCars():void{
-    this.carService.getCars()
+    this.carService.getCars(this.requestParams)
     .subscribe(
-      (response:Response)=>{
-        let responseVehicles:Car[]=response.data
+      (response:HttpResponse<any>)=>{
+
+        const pagination = response.headers.get('x-pagination');
+        if(pagination){
+          this.paginationOptions = JSON.parse(pagination);
+          // console.log(this.paginationOptions);
+
+          this.requestParams = {
+            PageNum:this.paginationOptions.CurrentPage,
+            PageSize:this.paginationOptions.PageSize
+          }
+
+        }
+
+        let responseVehicles:Car[]=response.body.data;
+
         console.log('this.vehicles.length ',responseVehicles.length);
 
         responseVehicles.forEach(vehicle=>{

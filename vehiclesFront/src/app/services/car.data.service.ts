@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import{HttpClient,HttpHeaders} from '@angular/common/http';
+import{HttpClient,HttpHeaders,HttpResponse,HttpParams} from '@angular/common/http';
 import { Car } from "../models/car";
 import { Observable,of } from 'rxjs';
 import {vehiclesUrl} from "../configs/api-endpoint.constants";
@@ -23,10 +23,33 @@ export class CarDataService extends BaseDataService {
 
 
 
-  getCars():Observable<Response>{
-    return this.http.get<Response>(vehiclesUrl)
+  getCars(params?:any):Observable<HttpResponse<any>>{
+
+    var mapParams = new Map();
+    var httpParams = new HttpParams();
+    if(params){
+      for(const[key,value] of Object.entries(params)){
+        if(key&&value){
+          let numValue = Number.parseInt(`${value}`);
+          mapParams.set(key,numValue);
+          httpParams = httpParams.append(key,`${numValue}`)
+        }
+      }
+
+      // console.log('car service mapParams', mapParams);
+      // console.log('car service httpParams', httpParams);
+    }
+
+
+    return this.http.get<any>(
+      vehiclesUrl,
+      {
+        observe: 'response',
+        params:httpParams
+      },
+      )
     .pipe(
-      catchError(this.handleError<Response>('getCars'))
+      catchError(this.handleError<any>('getCars'))
     );
   }
 
