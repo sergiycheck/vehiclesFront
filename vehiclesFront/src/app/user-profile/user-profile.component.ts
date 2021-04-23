@@ -36,7 +36,6 @@ export class UserProfileComponent
   public vehicles:Car[];
   public penalties:Penalty[];
 
-  public userEmail:string;
 
   public showPenaltyComponent:boolean=false;
 
@@ -93,7 +92,7 @@ export class UserProfileComponent
     this.id =this.route.snapshot.paramMap.get('id');
 
     this.getUser();
-    this.getUserEmail();
+
   }
 
   public getToken():string{
@@ -108,19 +107,6 @@ export class UserProfileComponent
     })
   }
 
-
-  getUserEmail(){
-    const token:string = localStorage.getItem("jwt");
-    if(token && !this.jwtHelper.isTokenExpired(token)){
-      if(!this.userEmail){
-
-        this.userService.getUserName(token)
-        .subscribe((response)=>{
-          this.userEmail = response;
-        });
-      }
-    }
-  }
 
   getUserCars():void{
     if(!this.posessor){
@@ -160,11 +146,7 @@ export class UserProfileComponent
       }
     })
 
-
-
-
   }
-
 
 
 

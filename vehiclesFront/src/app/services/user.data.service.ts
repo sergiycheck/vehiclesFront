@@ -47,11 +47,11 @@ export class UserDataService extends BaseDataService {
       );
   }
 
-  getUserName(tokenValue:string):Observable<string>{
+  getUser(tokenValue:string):Observable<Response>{
     const tokenRequest:any={
       token:tokenValue
     }
-    return this.http.post<string>(
+    return this.http.post<Response>(
       getUserName,
       tokenRequest,
       {
@@ -59,7 +59,7 @@ export class UserDataService extends BaseDataService {
         //.append("Authorization",`Bearer ${tokenValue}`)
       })
     .pipe(
-      catchError(this.handleError<string>('getUserName'))
+      catchError(this.handleError<Response>('getUserName'))
     );
   }
 

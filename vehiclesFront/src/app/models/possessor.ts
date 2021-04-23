@@ -10,6 +10,7 @@ export class Possessor{
     public carOwnerPhone?:string,
     public location?:string,
     public birthDate?:Date,
+    public email?:string,
     public cars?:Car[],
   ){}
 }

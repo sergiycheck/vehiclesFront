@@ -14,6 +14,9 @@ import {Location} from '@angular/common';
 
 import {AuthorizationService} from '../services/authorization.service';
 
+import { Possessor } from "../models/possessor";
+
+
 declare function addRemoveClass():any; //run in myJsFile.js
 
 declare function showLoginModal():any;
@@ -34,6 +37,8 @@ export class AppComponent
 
   title = 'vehiclesFront';
   public isAuthenticated:boolean=false;
+
+  public user:Possessor;
   public userName:string;
 
   constructor(
@@ -127,14 +132,23 @@ export class AppComponent
     const token = this.getToken();
 
     if(token){
-      this.userName  = await this.userData.getUserName(token).toPromise();
+      this.userData.getUser(token).toPromise().then(response=>{
+        if(response && response.data){
+          console.log(response.data);
+          this.user = response.data;
+          this.userName = this.user.userName?this.user.userName:this.user.name;
+        }
 
-      if(this.userName && this.isAuthenticated){
-        console.log('AppComponent getUserName this.userName',this.userName.valueOf())
-        console.log('AppComponent this.isAuthenticated',this.isAuthenticated);
-        this.authService.setAuthentication(this.isAuthenticated);
-        this.authService.setUserName(this.userName);
-      }
+        if(this.userName && this.isAuthenticated){
+          console.log('AppComponent getUserName this.userName',this.userName.valueOf())
+          console.log('AppComponent this.isAuthenticated',this.isAuthenticated);
+          this.authService.setAuthentication(this.isAuthenticated);
+          this.authService.setUserName(this.userName);
+        }
+
+      })
+
+
 
 
     }
