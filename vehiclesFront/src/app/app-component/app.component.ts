@@ -159,6 +159,7 @@ export class AppComponent
 
   logOut(){
     this.userName=null;
+    this.user = null;
 
     this.isAuthenticated = false;
     localStorage.removeItem("jwt");

@@ -43,7 +43,7 @@
               <ul class="nav navbar-nav">
 
                 <li *ngIf="isAuthenticated || getToken()" class="p-2">
-                  <a class="nav-link"  routerLink="/"  (click)="logOut()">Log out</a>
+                  <span class="nav-link poiner"   (click)="logOut()">Log out</span>
                 </li>
 
                 <!-- <li *ngIf="!isAuthenticated && getToken()==null" class="p-2" >
