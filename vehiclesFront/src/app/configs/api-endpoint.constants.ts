@@ -11,13 +11,12 @@ export const getOwnerByUniqueNumber = ownersUrl+'/vehicle-unique-number/{uniqueN
 
 export const login = baseUrl+'/identity/login';
 
-
-
 export const register = baseUrl+'/identity/register';
-
-
+export const updateUser = baseUrl+'/identity/update/{id}';
+export const deleteUser = baseUrl+'/identity/delete/{id}';
 export const refreshTokenPath = baseUrl+'/identity/refresh';
 export const getUserName = baseUrl+'/identity/get-user';
+
 
 export const chatUrl = baseUrl+'/chat';
 

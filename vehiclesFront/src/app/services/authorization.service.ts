@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import {AuthGuard} from '../guards/auth-guard.service'
+import {Possessor} from '../models/possessor'
 
 @Injectable()
 export class AuthorizationService {
@@ -14,18 +15,25 @@ export class AuthorizationService {
 
 
     // Observable string sources
-    private isAuthenticatedSource = new Subject<boolean>();
-    private userNameSource = new Subject<string>();
+    public isAuthenticatedSource = new Subject<boolean>();
+    public userSource = new Subject<Possessor>();
+
+    public deleteUserSource = new Subject<boolean>();
 
     // Observable string streams
     isAuthenticatedObs$ = this.isAuthenticatedSource.asObservable();
-    userNameObs$ = this.userNameSource.asObservable();
+    userObs$ = this.userSource.asObservable();
+    deleteUserObs$ = this.deleteUserSource.asObservable();
 
     setAuthentication(dataAuth:boolean){
       this.isAuthenticatedSource.next(dataAuth);
     }
-    setUserName(dataName:string){
-      this.userNameSource.next(dataName);
+    setUser(user:Possessor){
+      this.userSource.next(user);
+    }
+
+    setDeleteUser(isUserDeleted:boolean){
+      this.deleteUserSource.next(isUserDeleted)
     }
 
     canActivate(){

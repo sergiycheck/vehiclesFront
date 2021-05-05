@@ -1,5 +1,19 @@
 <div class="row p-2">
 
+<div class="row p-2">
+  <custom-pagination
+  *ngIf="paginationOptions"
+    class="col"
+    [paginationOptions]="paginationOptions"
+    [requestParams]="requestParams"
+    [availablePageSizes]="availablePageSizes"
+    (handleClickPreviousRequest)="handleClickPrevious()"
+    (handleClickNextRequest)="handleClickNext()"
+    (onChangePageSizeRequest)="onChangePageSize($event)"
+  >
+  </custom-pagination>
+</div>
+
   <div
     *ngFor="let user of possessors"
     class="row ">

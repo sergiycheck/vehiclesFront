@@ -9,7 +9,7 @@ import {OwnersComponent} from './owners/owners.component'
 import {UserProfileComponent} from './user-profile/user-profile.component'
 import {AppComponent} from './app-component/app.component';
 import {AppAuthComponent} from './app.auth.component'
-
+import { UserPersonalCabinetComponent } from "./user-personal-cabinet/user-personal-cabinet.component";
 
 
 const routes: Routes = [
@@ -18,7 +18,7 @@ const routes: Routes = [
   {path:'vehicles',component:VehiclesComponent},
   {path:'',redirectTo: '/app-auth',pathMatch: 'full'},//default route
   {path:'vehicle-details/:id',component:VehicleDetailsComponent,canActivate:[AuthGuard]},//check if token is expired
-  // {path:'auth',component:MyLoginComponent},
+  {path:'personal-cabinet',component:UserPersonalCabinetComponent,canActivate:[AuthGuard]},
   {path:'chat',component:UserChatComponent},
   {path:'owners',component:OwnersComponent},
   {path:'owners/:id',component:UserProfileComponent},

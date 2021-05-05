@@ -164,17 +164,12 @@ public availablePageSizes=[3,5,10,50];
     .subscribe(
       (response:HttpResponse<any>)=>{
 
-        const pagination = response.headers.get('x-pagination');
-        if(pagination){
-          this.paginationOptions = JSON.parse(pagination);
-          // console.log(this.paginationOptions);
-
-          this.requestParams = {
-            PageNum:this.paginationOptions.CurrentPage,
-            PageSize:this.paginationOptions.PageSize
-          }
-
-        }
+        let allPaginationOptions =
+          this
+          .carService
+          .getPaginationOptionsFromResponse(response);
+        this.paginationOptions = allPaginationOptions.paginationOptions;
+        this.requestParams = allPaginationOptions.requestParams;
 
         let responseVehicles:Car[]=response.body.data;
 
@@ -264,6 +259,9 @@ public availablePageSizes=[3,5,10,50];
         }
 
       });
+      const token = this.getToken();
+      formData.append('token',token);
+
       formData.append('file', fileToUpload, fileToUpload.name);
 
     }

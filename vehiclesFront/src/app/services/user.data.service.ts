@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import{HttpClient,HttpHeaders} from '@angular/common/http';
+import{HttpClient,HttpHeaders, HttpResponse} from '@angular/common/http';
 import { Observable,of } from 'rxjs';
 import {BaseDataService} from './base.data.service';
 import {catchError,map,tap} from 'rxjs/operators';
@@ -9,7 +9,9 @@ import {
   getVehiclesByOwner,
   GetPenaltiesByUserId,
   PayPenalty,
-  getOwnerByUniqueNumber
+  getOwnerByUniqueNumber,
+  updateUser,
+  deleteUser
 } from "../configs/api-endpoint.constants";
 
 
@@ -31,12 +33,14 @@ export class UserDataService extends BaseDataService {
    }
 
 
-  getOwners():Observable<Response>{
-    return this.http.get<Response>(ownersUrl)
-    .pipe(
-      catchError(this.handleError<Response>('getOwners'))
-    );
+  getOwners(params?:any):Observable<HttpResponse<any>>{
+    let httpParams = this.getHttpParams(params);
+    return this.getDataWithPagination(
+      ownersUrl,
+      httpParams,
+      'getOwners');
   }
+
 
 
   getOwnerByUniqueNumber(uniqueNumber:string):Observable<Response>{
@@ -62,6 +66,36 @@ export class UserDataService extends BaseDataService {
       catchError(this.handleError<Response>('getUserName'))
     );
   }
+
+  updateUser(id:string,formData:any):Observable<any>{
+    let url = updateUser.replace('{id}',id);
+    return this.http.put(
+      url,
+      formData,
+      {
+        reportProgress:true,
+        observe:'events'
+      }
+    ).pipe(
+      catchError(this.handleError<any>('updateUser'))
+    )
+  }
+
+  deleteUser(id:string,token:string):Observable<Response>{
+    let url = deleteUser.replace('{id}',id);
+    return this.http.post(
+      url,
+      {
+        token:token
+      },
+      {
+        headers:this.httpOptions.headers
+      }
+    ).pipe(
+      catchError(this.handleError<any>('delete user'))
+    )
+  }
+
 
   public payUserPenalty(penaltyPayRequest:PenaltyPayRequest):Observable<Response>{
     const url = PayPenalty

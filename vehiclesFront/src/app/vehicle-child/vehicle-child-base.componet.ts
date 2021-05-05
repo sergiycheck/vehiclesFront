@@ -16,7 +16,10 @@ import { CarDataService } from "../services/car.data.service";
   `,
   changeDetection:ChangeDetectionStrategy.Default
 })
-export class VehicleChildBaseComponent implements OnInit,AfterViewInit {
+export class VehicleChildBaseComponent
+  implements
+    OnInit,
+    AfterViewInit {
 
   @Input() vehicle:Car;
   @Input() userCanAccess:boolean;

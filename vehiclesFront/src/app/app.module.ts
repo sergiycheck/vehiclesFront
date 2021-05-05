@@ -30,6 +30,8 @@ import {AppAuthComponent} from './app.auth.component';
 import {whiteListDomains} from './configs/api-endpoint.constants';
 
 import { UserPenaltyComponent } from "./user-profile/user-penalty-component";
+import { CustomPagination } from "./helper-components/custom-pagination.component";
+import { UserPersonalCabinetComponent } from './user-personal-cabinet/user-personal-cabinet.component';
 
 
 export function tokenCustomGetter(){
@@ -49,9 +51,11 @@ export function tokenCustomGetter(){
     UserChatComponent,
     VehicleChildComponent,
     VehicleChildListComponent,
+    CustomPagination,
     OwnersComponent,
     UserProfileComponent,
-    UserPenaltyComponent
+    UserPenaltyComponent,
+    UserPersonalCabinetComponent
   ],
   imports: [
     BrowserModule,

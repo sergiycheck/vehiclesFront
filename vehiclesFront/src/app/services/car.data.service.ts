@@ -25,32 +25,12 @@ export class CarDataService extends BaseDataService {
 
   getCars(params?:any):Observable<HttpResponse<any>>{
 
-    var mapParams = new Map();
-    var httpParams = new HttpParams();
-    if(params){
-      for(const[key,value] of Object.entries(params)){
-        if(key&&value){
-          let numValue = Number.parseInt(`${value}`);
-          mapParams.set(key,numValue);
-          httpParams = httpParams.append(key,`${numValue}`)
-        }
-      }
-
-      // console.log('car service mapParams', mapParams);
-      // console.log('car service httpParams', httpParams);
-    }
-
-
-    return this.http.get<any>(
+    let httpParams = this.getHttpParams(params);
+    return this.getDataWithPagination(
       vehiclesUrl,
-      {
-        observe: 'response',
-        params:httpParams
-      },
-      )
-    .pipe(
-      catchError(this.handleError<any>('getCars'))
-    );
+      httpParams,
+      'getCars');
+
   }
 
   getCar(id:number):Observable<Response>{

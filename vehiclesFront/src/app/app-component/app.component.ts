@@ -53,6 +53,19 @@ export class AppComponent
     private authService: AuthorizationService
     ){
 
+      this.authService.isAuthenticatedObs$.subscribe(
+        isAuth=>{
+          this.isAuthenticated = isAuth;
+        })
+      this.authService.userObs$.subscribe(user=>{
+        this.user = user;
+        this.userName = this.user?.userName?this.user?.userName:this.user?.name;
+      })
+      this.authService.deleteUserObs$.subscribe(isUserDeleted=>{
+        if(isUserDeleted){
+          this.logOut();
+        }
+      })
   }
 
 
@@ -72,7 +85,7 @@ export class AppComponent
       console.log('AppComponent this.isAuthenticated',this.isAuthenticated);
       console.log('AppComponent this.userName',this.userName);
       this.authService.setAuthentication(this.isAuthenticated);
-      this.authService.setUserName(this.userName);
+      this.authService.setUser(this.user);
     });
 
   }
@@ -143,9 +156,11 @@ export class AppComponent
           console.log('AppComponent getUserName this.userName',this.userName.valueOf())
           console.log('AppComponent this.isAuthenticated',this.isAuthenticated);
           this.authService.setAuthentication(this.isAuthenticated);
-          this.authService.setUserName(this.userName);
+          this.authService.setUser(this.user);
         }
 
+      },error=>{
+        console.log(error);
       })
 
 

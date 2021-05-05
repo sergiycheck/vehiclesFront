@@ -48,21 +48,20 @@ export class AppAuthComponent
     private authService: AuthorizationService
   ){
 
+    this.subscription = this.authService
+      .isAuthenticatedObs$.subscribe(isAuth=>{
+        this.isAuthenticated = isAuth;
+        console.log('AppAuthComponent this.isAuthenticated from subscription',this.isAuthenticated);
+        if(this.isAuthenticated){
+          console.log('getting cars from AppAuthComponent constructor from  subscription');
+          this.vehiclesComponent.getCars();
+        }
+    });
+
   }
 
   ngOnInit(){
     console.log('AppAuthComponent ngOnInit');
-
-    this.subscription = this.authService
-      .isAuthenticatedObs$.subscribe(isAuth=>{
-      this.isAuthenticated = isAuth;
-      console.log('AppAuthComponent this.isAuthenticated from subscription',this.isAuthenticated);
-      if(this.isAuthenticated){
-        console.log('getting cars from AppAuthComponent ngOnInit from  subscription');
-        this.vehiclesComponent.getCars();
-      }
-
-    });
 
   }
 
