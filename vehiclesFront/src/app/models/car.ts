@@ -13,6 +13,7 @@ export class Car{
         public transmision?:string,//transmision
         public drive?:string,
 
+        public updateImage?:string,
         public imgFile?:any,
         public imageData?:any
     ){}
