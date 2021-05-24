@@ -1,0 +1,80 @@
+
+
+<nav aria-label="Page navigation example">
+
+  <ul class="pagination">
+
+    <div *ngIf="paginationOptions.HasPrevious;
+      then hasPreviousTrue
+      else hasPreviousFalse"></div>
+
+    <ng-template #hasPreviousTrue>
+
+      <li class="page-item">
+        <span
+          (click)="handleClickPrevious()"
+          class="page-link curs-pointer" >Previous</span>
+      </li>
+
+    </ng-template>
+
+    <ng-template #hasPreviousFalse>
+      <li class="page-item disabled">
+        <span
+          (click)="handleClickPrevious()"
+          class="page-link curs-pointer" tabindex="-1"
+          aria-disabled="true">Previous</span>
+      </li>
+    </ng-template>
+
+
+
+    <li class="page-item">
+      <span class="page-link">
+        Current Page: {{paginationOptions.CurrentPage}}</span>
+    </li>
+    <li class="page-item">
+      <span class="page-link">
+        Number of records: {{paginationOptions.TotalCount}}</span>
+    </li>
+    <li class="page-item">
+      <span class="page-link">
+        Page size: {{paginationOptions.PageSize}}</span>
+
+        <select
+          class="form-select curs-pointer"
+          [(ngModel)]="requestParams.PageSize"
+          (ngModelChange)="onChangePageSize($event)" >
+          <option
+            [value]="size"
+            *ngFor="let size of availablePageSizes" >{{size}}</option>
+
+      </select>
+
+    </li>
+
+    <div *ngIf="paginationOptions.HasNext;
+      then hasNextTrue
+      else hasNextFalse"></div>
+
+    <ng-template #hasNextTrue>
+      <li class="page-item curs-pointer">
+        <span
+          (click)="handleClickNext()"
+          class="page-link" >Next</span>
+      </li>
+    </ng-template>
+
+    <ng-template #hasNextFalse>
+      <li class="page-item disabled">
+        <span
+          (click)="handleClickNext()"
+          class="page-link curs-pointer"
+          aria-disabled="true" >Next</span>
+      </li>
+    </ng-template>
+
+
+
+  </ul>
+</nav>

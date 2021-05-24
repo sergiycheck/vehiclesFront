@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import{HttpClient,HttpHeaders} from '@angular/common/http';
+import{HttpClient,HttpHeaders,HttpResponse,HttpParams} from '@angular/common/http';
 import { Car } from "../models/car";
 import { Observable,of } from 'rxjs';
 import {vehiclesUrl} from "../configs/api-endpoint.constants";
 import {catchError,map,tap} from 'rxjs/operators';
 import {Response} from '../models/response';
 import {BaseDataService} from './base.data.service';
+
+import { ICanUserAccess } from "../models/car";
 
 
 @Injectable({
@@ -21,11 +23,14 @@ export class CarDataService extends BaseDataService {
 
 
 
-  getCars():Observable<Response>{
-    return this.http.get<Response>(vehiclesUrl)
-    .pipe(
-      catchError(this.handleError<Response>('getCars'))
-    );
+  getCars(params?:any):Observable<HttpResponse<any>>{
+
+    let httpParams = this.getHttpParams(params);
+    return this.getDataWithPagination(
+      vehiclesUrl,
+      httpParams,
+      'getCars');
+
   }
 
   getCar(id:number):Observable<Response>{
@@ -35,22 +40,53 @@ export class CarDataService extends BaseDataService {
     );
   }
 
-  createCar(car:Car):Observable<any>{
-    return this.http.post(`${vehiclesUrl}/create`,car,this.httpOptions)
+  createCar(formData):Observable<any>{
+    return this.http.post(
+      `${vehiclesUrl}/create`,
+      formData,
+      {
+        reportProgress:true,
+        observe: 'events'
+      })
       .pipe(
-        tap((car:Car) => console.log(`added car w/ id =${car.id}`)),
+        // tap((car:Car) => console.log(`added car w/ id =${car.id}`)),
         catchError(this.handleError<Car>(`createCar`))
       )
   }
-  updateCar(car:Car):Observable<any>{
-    return this.http.put(`${vehiclesUrl}/update/${car.id}`,car,this.httpOptions)
+
+  canUserAccess(canUserAccessRequest:ICanUserAccess):Observable<boolean>{
+    return this.http.post(
+      `${vehiclesUrl}/canAccess`,
+      canUserAccessRequest,
+      this.httpOptions
+    ).pipe(
+      tap(
+        // _ => console.log(`can access car with id ${canUserAccessRequest.id}`)
+      ),
+      catchError(this.handleError<any>(`canUserAccess`))
+    )
+  }
+
+  updateCar(id,formData):Observable<any>{
+    return this.http.put(
+      `${vehiclesUrl}/update/${id}`,
+      formData,
+      {
+        reportProgress:true,
+        observe: 'events'
+      })
     .pipe(
-      tap(_ => console.log(`updated car id =${car.id}`)),
+      tap(_ => console.log(`updated car id =${id}`)),
       catchError(this.handleError<any>(`updatedCar`))
     )
   }
-  deleteCar(id:number):Observable<any>{
-    return this.http.delete(`${vehiclesUrl}/delete/${id}`,this.httpOptions)
+
+
+  deleteCar(id:number,canUserAccessRequest:ICanUserAccess):Observable<any>{
+    return this.http.post(
+      `${vehiclesUrl}/delete/${id}`,
+      canUserAccessRequest,
+      this.httpOptions)
     .pipe(
       tap(_ => console.log(`deleted car id =${id}`)),
       catchError(this.handleError<any>(`deleteCar`))

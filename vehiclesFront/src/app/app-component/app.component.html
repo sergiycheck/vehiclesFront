@@ -1,6 +1,12 @@
 <!-- https://getbootstrap.com/docs/4.0/layout/grid/ -->
 <div class="container-fluid bg-light">
 
+  <app-my-login
+    (handleHideLoginPanelRequest)="handleClickHideLogin()"
+    (loginRequest)="isUserAuthenticated()"
+  >
+  </app-my-login>
+
   <div  class="container mb-5 p-3">
 
     <nav class="navbar navbar-expand-md fixed-top navbar-light shadow p-0 bg-light" role="navigation">
@@ -8,7 +14,7 @@
       <div class="container  text-dark">
 
         <a class="navbar-brand"
-          routerLink="/vehicles">
+          routerLink="/app-auth">
           <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="48px" viewBox="0 0 24 24" width="48px" fill="#000000"><g><path d="M0,0h24v24H0V0z" fill="none"/></g><g><g><path d="M20,2H4C2.9,2,2,2.9,2,4v16c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V4C22,2.9,21.1,2,20,2z M20,20H4V4h16V20z"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M5.78,18.5h0.44C6.65,18.5,7,18.14,7,17.69V16.5h10v1.19c0,0.45,0.34,0.81,0.78,0.81h0.44c0.43,0,0.78-0.36,0.78-0.81 v-6.5c-0.82-2.46-1.34-4.03-1.56-4.69c-0.05-0.16-0.12-0.29-0.19-0.4c-0.02-0.02-0.03-0.04-0.05-0.07 c-0.38-0.52-0.92-0.53-0.92-0.53H7.72c0,0-0.54,0.01-0.92,0.54C6.78,6.06,6.77,6.08,6.75,6.1C6.68,6.21,6.61,6.34,6.56,6.5 C6.34,7.16,5.82,8.72,5,11.19v6.5C5,18.14,5.35,18.5,5.78,18.5z M8.33,7.5h7.34l0.23,0.69l0.43,1.31H7.67L8.33,7.5z M7,11.51V11.5 h10v0.01v2.99H7V11.51z"/></g></g></svg>
         </a>
 
@@ -36,21 +42,26 @@
             <div class="col-md-8 mx-auto d-flex justify-content-end">
               <ul class="nav navbar-nav">
 
-                <li *ngIf="isUserAuthenticated()" class="p-2">
-                  <a class="nav-link"  routerLink="/"  (click)="logOut()">Log out</a>
+                <li *ngIf="isAuthenticated || getToken()" class="p-2">
+                  <span class="nav-link poiner"   (click)="logOut()">Log out</span>
                 </li>
 
-                <li *ngIf="!isUserAuthenticated()" class="p-2" >
-                  <a class="nav-link" routerLink="/auth">Login</a>
+                <!-- <li *ngIf="!isAuthenticated && getToken()==null" class="p-2" >
+                  <a class="nav-link" routerLink="/auth" >Login</a>
+                </li> -->
+
+                <li *ngIf="!isAuthenticated && getToken()==null" class="p-2" >
+                  <a class="nav-link poiner" (click)="handleClickLogin()" >Login</a>
                 </li>
 
-                <li *ngIf="isUserAuthenticated()" class="p-2">
-                  <a class="nav-link" >Hi, User {{userName}}!</a>
+                <li *ngIf="isAuthenticated || getToken()" class="p-2">
+                  <a routerLink="/personal-cabinet" class="nav-link" >Hi, User {{userName}}!</a>
                 </li>
 
                 <li class="p-2 mx-3">
                   <div class="form-check form-switch nav-link" >
-                    <input type="checkbox" class="form-check-input" id="customSwitch1" (change)="onCheckBoxChange()">
+                    <input type="checkbox" class="form-check-input"
+                      id="customSwitch1" (change)="onCheckBoxChange()">
                     <label class="form-check-label" for="customSwitch1">switch to nigth mode</label>
                   </div>
                 </li>
@@ -68,47 +79,9 @@
 
     </nav>
 
-    <!-- <div class="row justify-content-between align-items-center">
-
-        <div class="col-sm-4 col-md-auto">
-            <h1  class="heading">
-              <a routerLink="/vehicles">
-                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="48px" viewBox="0 0 24 24" width="48px" fill="#000000"><g><path d="M0,0h24v24H0V0z" fill="none"/></g><g><g><path d="M20,2H4C2.9,2,2,2.9,2,4v16c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V4C22,2.9,21.1,2,20,2z M20,20H4V4h16V20z"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/><path d="M5.78,18.5h0.44C6.65,18.5,7,18.14,7,17.69V16.5h10v1.19c0,0.45,0.34,0.81,0.78,0.81h0.44c0.43,0,0.78-0.36,0.78-0.81 v-6.5c-0.82-2.46-1.34-4.03-1.56-4.69c-0.05-0.16-0.12-0.29-0.19-0.4c-0.02-0.02-0.03-0.04-0.05-0.07 c-0.38-0.52-0.92-0.53-0.92-0.53H7.72c0,0-0.54,0.01-0.92,0.54C6.78,6.06,6.77,6.08,6.75,6.1C6.68,6.21,6.61,6.34,6.56,6.5 C6.34,7.16,5.82,8.72,5,11.19v6.5C5,18.14,5.35,18.5,5.78,18.5z M8.33,7.5h7.34l0.23,0.69l0.43,1.31H7.67L8.33,7.5z M7,11.51V11.5 h10v0.01v2.99H7V11.51z"/></g></g></svg>
-              </a>
-            </h1>
-        </div>
-
-        <div class="col-sm-5">
-          <div class="row">
-
-            <div class="col-sm-auto">
-              <a routerLink="/chat">chat</a>
-            </div>
-
-            <div *ngIf="isUserAuthenticated()" class="col-sm-auto">
-              <a routerLink="/"  (click)="logOut()">Log out</a>
-            </div>
-
-            <div *ngIf="!isUserAuthenticated()" class="col-sm-auto" >
-              <a  routerLink="/auth">Login</a>
-            </div>
-
-            <div *ngIf="isUserAuthenticated()" class="col-sm-auto">
-              <a>Hi, User {{userName}}!</a>
-            </div>
 
 
-            <div class="form-check form-switch col-sm-auto" >
-              <input type="checkbox" class="form-check-input" id="customSwitch1" (change)="onCheckBoxChange()">
-              <label class="form-check-label" for="customSwitch1">switch to nigth mode</label>
-            </div>
 
-          </div>
-
-        </div>
-
-
-    </div> -->
 
 
     <div class="mt-5">
@@ -121,8 +94,43 @@
 
   <footer class="mt-2 bg-dark text-white p-3">
     <div class="container">
-      <div class="row">
-        <h2 class="fs-3">Info about vehicles</h2>
+      <div class="row d-flex">
+        <h2 class="fs-3">Social media</h2>
+
+        <div class="link-to-outer-websites p-2 d-flex flex-row">
+
+          <h6 class="mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span class="m-2">Website</span>
+          </h6>
+
+          <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github mr-2 icon-inline"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+            <span class="m-2">Github</span>
+          </h6>
+
+          <h6 class="mb-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter mr-2 icon-inline text-info"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+          </svg>
+            <span class="m-2">Twitter</span>
+          </h6>
+
+          <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram mr-2 icon-inline text-danger"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+            <span class="m-2">Instagram</span>
+          </h6>
+
+          <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook mr-2 icon-inline text-primary"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+          </svg>
+            <span class="m-2">Facebook</span>
+          </h6>
+
+
+
+
+
+        </div>
       </div>
 
     </div>

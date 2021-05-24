@@ -1,5 +1,19 @@
 <div class="row p-2">
 
+<div class="row p-2">
+  <custom-pagination
+  *ngIf="paginationOptions"
+    class="col"
+    [paginationOptions]="paginationOptions"
+    [requestParams]="requestParams"
+    [availablePageSizes]="availablePageSizes"
+    (handleClickPreviousRequest)="handleClickPrevious()"
+    (handleClickNextRequest)="handleClickNext()"
+    (onChangePageSizeRequest)="onChangePageSize($event)"
+  >
+  </custom-pagination>
+</div>
+
   <div
     *ngFor="let user of possessors"
     class="row ">
@@ -39,7 +53,7 @@
 
             <h2
               routerLink='/owners/{{user.id}}'
-              >{{user.name?user.name:'unnamed user'}} {{user.surName}}</h2>
+              >{{user.name?user.name:user.userName}} {{user.surName}}</h2>
           </div>
 
           <h4>lives in {{user.location}}</h4>

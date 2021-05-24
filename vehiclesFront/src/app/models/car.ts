@@ -12,6 +12,36 @@ export class Car{
         public description?:string,
         public transmision?:string,//transmision
         public drive?:string,
-        public imagePath?:string
+
+        public updateImage?:string,
+        public imgFile?:any,
+        public imageData?:any
     ){}
 }
+
+export class CarResource{
+  constructor(
+    public dataResource:Car,
+    public canAccess?:boolean
+  ){
+
+  }
+}
+
+export interface ICanUserAccess{
+  id?:number,
+  token?:string
+}
+
+// export interface ICar{
+//   id:number,
+//   uniqueNumber:string,
+//   brand:string,
+//   color:string,
+//   date:Date,
+//   price:number,
+//   carEngine:number,
+//   description:string,
+//   transmision:string,
+//   drive:string;
+// }

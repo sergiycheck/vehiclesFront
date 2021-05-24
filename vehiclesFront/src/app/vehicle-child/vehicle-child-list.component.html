@@ -2,9 +2,9 @@
 
   <div class="col-md-4 col-sm-10 parent-height">
     <img
-    routerLink="/vehicle-details/{{elem.id}}"
+    routerLink="/vehicle-details/{{vehicle.id}}"
     class="img-fluid img-rounded cursor-poiner"
-    [src]="elem.imagePath?elem.imagePath:''"
+    [src]="vehicle.imageData"
     alt="">
   </div>
 
@@ -15,11 +15,12 @@
       <div class="d-flex justify-content-between align-items-center">
 
         <h2 class="underline"
-          routerLink="/vehicle-details/{{elem.id}}">
-          <i class="fas fa-car"></i> {{elem.brand}}
+          routerLink="/vehicle-details/{{vehicle.id}}">
+          <i class="fas fa-car"></i> {{vehicle.brand}}
         </h2>
 
-        <a *ngIf="userCanAccess" (click)="delete(elem.id)" class="btn btn-danger ">
+        <a *ngIf="userCanAccess && isUserAllowedForAction"
+          (click)="delete(vehicle.id)" class="btn btn-danger ">
           <i class="fas fa-window-close"></i>
         </a>
 
@@ -31,31 +32,31 @@
         <div class="main-info">
           <div class="">
             <h2>Price</h2>
-            <p>{{elem.price| currency }}</p>
+            <p>{{vehicle.price| currency }}</p>
           </div>
           <div class="">
             <h2>UniqueNumber</h2>
-            <p>{{elem.uniqueNumber}}</p>
+            <p>{{vehicle.uniqueNumber}}</p>
           </div>
         </div>
 
         <div class="additional-info">
           <div class="">
             <h2>Color</h2>
-            <p>{{elem.color}}</p>
+            <p>{{vehicle.color}}</p>
           </div>
           <div class="">
             <h2>Engine</h2>
-            <p>{{elem.carEngine}}</p>
+            <p>{{vehicle.carEngine}}</p>
           </div>
 
           <div class="">
             <h2>Drive</h2>
-            <p>{{elem.drive}}</p>
+            <p>{{vehicle.drive}}</p>
           </div>
           <div class="">
             <h2>Transmisstion</h2>
-            <p>{{elem.transmision}}</p>
+            <p>{{vehicle.transmision}}</p>
           </div>
         </div>
 
@@ -68,12 +69,14 @@
     <div class="d-flex justify-content-between align-items-center">
 
       <div class="text-muted ">
-        <p>{{elem.date | date}}</p>
+        <p>{{vehicle.date | date}}</p>
       </div>
 
       <div>
-        <a *ngIf="userCanAccess" (click)="editCar(elem)" class="btn btn-warning">Update</a>
+        <a *ngIf="userCanAccess && isUserAllowedForAction"
+          (click)="editCar(vehicle)" class="btn btn-warning">Update</a>
       </div>
+      <!-- <p>User is allowed {{isUserAllowedForAction}}</p> -->
 
     </div>
 

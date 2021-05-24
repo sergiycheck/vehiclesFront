@@ -1,0 +1,90 @@
+<div class="overlay">
+  <div class="overlay-content">
+
+    <div class="container">
+
+      <div class="row  justify-content-center">
+
+        <div class="p-3 bg-light rounded col-md-7">
+
+          <div class="row ">
+            <div class="d-flex justify-content-end">
+              <button
+              (click)="handleClickHidePenalty()"
+              class="btn btn-danger">
+              X
+            </button>
+            </div>
+
+          </div>
+
+          <div class="penalty-content p-2 row">
+            <div class="d-flex">
+              <h2 class="m-2">
+                <strong>{{!penalty.payedStatus?'not payed':'payed'}}</strong>
+              </h2>
+              <h2 class="m-2">location: {{penalty.location}}</h2>
+              <h2 class="m-2">price: {{penalty.price |currency}}</h2>
+              <h2 class="m-2">date: {{penalty.date | date}}</h2>
+            </div>
+            <div class="m-2">
+              <p class="fs-5">{{penalty.description}}</p>
+            </div>
+          </div>
+
+          <div *ngIf="showErrors">
+            <div class="alert alert-danger" role="alert">
+              {{errorMessage}}
+            </div>
+          </div>
+
+          <div *ngIf="showSuccessResponse">
+            <div class="alert alert-info" role="alert">
+              {{successMessage}}
+            </div>
+          </div>
+
+          <div class="m-2 p-2 row d-flex align-items-center">
+
+
+            <div
+              *ngIf="!penalty.payedStatus"
+              class="col-auto">
+
+              <div class="col-auto " >
+                <h2>fill data to pay penalty</h2>
+              </div>
+
+              <div
+                class="col-auto d-flex align-items-center">
+                <div class="col-auto m-2">
+                  <input [(ngModel)]="penaltyPayRequest.fee"
+                    class="form-control"
+                    type="number" required
+                    name="inputPenaltyRequestMoney"
+                    placeholder="enter amount of money">
+                </div>
+
+                  <button
+                    (click)="handleClickPayPenalty()"
+                    class="btn btn-primary ">Pay</button>
+
+              </div>
+            </div>
+
+
+
+
+          </div>
+
+        </div>
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+

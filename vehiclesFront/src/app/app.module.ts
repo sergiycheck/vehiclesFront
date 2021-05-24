@@ -25,6 +25,15 @@ import {VehicleChildListComponent} from './vehicle-child/vehicle-child-list.comp
 import { OwnersComponent } from './owners/owners.component';
 import { UserProfileComponent } from './user-profile/user-profile.component'
 
+import {AppAuthComponent} from './app.auth.component';
+
+import {whiteListDomains} from './configs/api-endpoint.constants';
+
+import { UserPenaltyComponent } from "./user-profile/user-penalty-component";
+import { CustomPagination } from "./helper-components/custom-pagination.component";
+import { UserPersonalCabinetComponent } from './user-personal-cabinet/user-personal-cabinet.component';
+
+
 export function tokenCustomGetter(){
   let token = localStorage.getItem("jwt");
   //console.log(`getting token...`);
@@ -34,6 +43,7 @@ export function tokenCustomGetter(){
 
 @NgModule({
   declarations: [
+    AppAuthComponent,
     AppComponent,
     VehiclesComponent,
     VehicleDetailsComponent,
@@ -41,8 +51,11 @@ export function tokenCustomGetter(){
     UserChatComponent,
     VehicleChildComponent,
     VehicleChildListComponent,
+    CustomPagination,
     OwnersComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    UserPenaltyComponent,
+    UserPersonalCabinetComponent
   ],
   imports: [
     BrowserModule,
@@ -50,10 +63,10 @@ export function tokenCustomGetter(){
     MatDatepickerModule,MatNativeDateModule,MatIconModule,MatInputModule,
     AppRoutingModule,
     HttpClientModule,
-    JwtModule.forRoot({
+    JwtModule.forRoot({//preflight request
       config:{
         tokenGetter:tokenCustomGetter,
-        whitelistedDomains:["localhost:5010"],//error was here
+        whitelistedDomains:[whiteListDomains],//error was here
         blacklistedRoutes:[""]
       }
     }),
