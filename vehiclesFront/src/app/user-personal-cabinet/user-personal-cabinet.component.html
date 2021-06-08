@@ -1,131 +1,136 @@
 
-<div class="row gutters-sm pt-3">
-  <div class="col-md-4 mb-3">
-    <ul class="list-group">
-      <li class="list-group-item active">Your personal data</li>
+<div class="container">
 
-    </ul>
-  </div>
+  <div class="row gutters-sm pt-3">
+    <div class="col-md-4 mb-3">
+      <ul class="list-group">
+        <li class="list-group-item active">Your personal data</li>
 
-  <div *ngIf="user" class="col-md-8">
+      </ul>
+    </div>
 
-    <div class="row">
-      <div class="col-sm-3">
-        <h4 class="mb-0 fs-5">Name</h4>
+    <div *ngIf="user" class="col-md-8">
+
+      <div class="row">
+        <div class="col-sm-3">
+          <h4 class="mb-0 fs-5">Name</h4>
+        </div>
+        <div class="col-sm-9">
+          <input
+          class="form-control m-2"
+          name="name"
+          [(ngModel)]="user.name" type="text" >
+        </div>
+
       </div>
-      <div class="col-sm-9">
-        <input
-        class="form-control m-2"
-        name="name"
-        [(ngModel)]="user.name" type="text" >
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-3">
+          <h4 class="mb-0 fs-5">userName</h4>
+        </div>
+        <div class="col-sm-9">
+          <input
+          class="form-control m-2"
+          name="userName"
+          [(ngModel)]="user.userName" type="text" >
+        </div>
+
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-3">
+          <h4 class="mb-0 fs-5">surName</h4>
+        </div>
+        <div class="col-sm-9">
+          <input
+          class="form-control m-2"
+          name="surName"
+          [(ngModel)]="user.surName" type="text" >
+        </div>
+
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-3">
+          <h4 class="mb-0 fs-5">Phone number</h4>
+        </div>
+        <div class="col-sm-9">
+          <input
+          class="form-control m-2"
+          name="carOwnerPhone"
+          [(ngModel)]="user.carOwnerPhone" type="text" >
+        </div>
+
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-3">
+          <h4 class="mb-0 fs-5">location</h4>
+        </div>
+        <div class="col-sm-9">
+          <input
+          class="form-control m-2"
+          name="location"
+          [(ngModel)]="user.location" type="text" >
+        </div>
+
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-3">
+          <h4 class="mb-0 fs-5">email</h4>
+        </div>
+        <div class="col-sm-9">
+          <input
+          class="form-control m-2"
+          name="email"
+          [(ngModel)]="user.email" type="text" >
+        </div>
+
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-3">
+          <h4 class="mb-0 fs-5">BirthDate</h4>
+        </div>
+
+        <div class="col-sm-3">
+          <mat-form-field class="bg-light rounded my-2" appearance="fill">
+            <mat-label class="text-dark fs-5">Choose a date</mat-label>
+            <input [(ngModel)]="user.birthDate" name="date"
+              class="border-bottom validate-date" matInput [matDatepicker]="picker">
+
+            <mat-datepicker-toggle matSuffix [for]="picker">
+              <mat-icon class="text-dark"
+              matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+
+          </mat-form-field><br>
+        </div>
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-4 d-flex justify-content-between align-items-center">
+          <button (click)="updateUser()" class="btn btn-warning">Save</button>
+          <button (click)="deleteUser()" class="btn btn-danger">Delete</button>
+        </div>
+
+        <div *ngIf="showResponseMessage"
+          [class]="!containsErrors?'col alert alert-success':'col alert alert-danger'">
+          {{responseMessage}}
+        </div>
       </div>
 
     </div>
-    <hr>
 
-    <div class="row">
-      <div class="col-sm-3">
-        <h4 class="mb-0 fs-5">userName</h4>
-      </div>
-      <div class="col-sm-9">
-        <input
-        class="form-control m-2"
-        name="userName"
-        [(ngModel)]="user.userName" type="text" >
-      </div>
-
-    </div>
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-3">
-        <h4 class="mb-0 fs-5">surName</h4>
-      </div>
-      <div class="col-sm-9">
-        <input
-        class="form-control m-2"
-        name="surName"
-        [(ngModel)]="user.surName" type="text" >
-      </div>
-
-    </div>
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-3">
-        <h4 class="mb-0 fs-5">Phone number</h4>
-      </div>
-      <div class="col-sm-9">
-        <input
-        class="form-control m-2"
-        name="carOwnerPhone"
-        [(ngModel)]="user.carOwnerPhone" type="text" >
-      </div>
-
-    </div>
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-3">
-        <h4 class="mb-0 fs-5">location</h4>
-      </div>
-      <div class="col-sm-9">
-        <input
-        class="form-control m-2"
-        name="location"
-        [(ngModel)]="user.location" type="text" >
-      </div>
-
-    </div>
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-3">
-        <h4 class="mb-0 fs-5">email</h4>
-      </div>
-      <div class="col-sm-9">
-        <input
-        class="form-control m-2"
-        name="email"
-        [(ngModel)]="user.email" type="text" >
-      </div>
-
-    </div>
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-3">
-        <h4 class="mb-0 fs-5">BirthDate</h4>
-      </div>
-
-      <div class="col-sm-3">
-        <mat-form-field class="bg-light rounded my-2" appearance="fill">
-          <mat-label class="text-dark fs-5">Choose a date</mat-label>
-          <input [(ngModel)]="user.birthDate" name="date"
-            class="border-bottom validate-date" matInput [matDatepicker]="picker">
-
-          <mat-datepicker-toggle matSuffix [for]="picker">
-            <mat-icon class="text-dark"
-             matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-          </mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-
-        </mat-form-field><br>
-      </div>
-    </div>
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-4 d-flex justify-content-between align-items-center">
-        <button (click)="updateUser()" class="btn btn-warning">Save</button>
-        <button (click)="deleteUser()" class="btn btn-danger">Delete</button>
-      </div>
-
-      <div *ngIf="showResponseMessage"
-        [class]="!containsErrors?'col alert alert-success':'col alert alert-danger'">
-        {{responseMessage}}
-      </div>
-    </div>
 
   </div>
 

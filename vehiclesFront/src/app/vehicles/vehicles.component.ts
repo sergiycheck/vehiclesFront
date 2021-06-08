@@ -16,7 +16,7 @@ import { HttpEvent,HttpEventType, HttpResponse } from '@angular/common/http';
 import {AppAuthComponent} from '../app.auth.component';
 import {UserDataService} from '../services/user.data.service';
 
-import { PaginationOptions,RequestParams } from "../models/pagination-options";
+import { PaginationOptions,RequestParams,SearchFilterOptions } from "../models/pagination-options";
 
 
 declare function dateValidator():any;
@@ -59,6 +59,9 @@ public uploadImgMessage:string;
 
 public paginationOptions:PaginationOptions;
 public requestParams:RequestParams;
+
+public searchFilterOptions = new SearchFilterOptions();
+
 public availablePageSizes=[3,5,10,50];
 
   constructor(
@@ -83,7 +86,8 @@ public availablePageSizes=[3,5,10,50];
 
 
   ngOnInit() {
-    this.getCars();
+    const searchObj = {...this.requestParams, ...this.searchFilterOptions};
+    this.getCars(searchObj);
 
     console.log(' VehiclesComponent ngOnInit');
 
@@ -135,7 +139,8 @@ public availablePageSizes=[3,5,10,50];
       this.requestParams.PageNum+=1;
       // console.log('next clickd ', this.requestParams);
 
-      this.getCars();
+      const searchObj = {...this.requestParams, ...this.searchFilterOptions};
+      this.getCars(searchObj);
     }
   }
 
@@ -144,7 +149,8 @@ public availablePageSizes=[3,5,10,50];
       this.requestParams.PageNum -=1;
       // console.log('previous clicked', this.requestParams);
 
-      this.getCars();
+      const searchObj = {...this.requestParams, ...this.searchFilterOptions};
+      this.getCars(searchObj);
     }
   }
 
@@ -153,14 +159,21 @@ public availablePageSizes=[3,5,10,50];
       this.requestParams.PageSize = event;
 
       // console.log(this.requestParams);
-      this.getCars();
+      const searchObj = {...this.requestParams, ...this.searchFilterOptions};
+      this.getCars(searchObj);
     }
 
   }
 
+  findBtnHandleClick(){
+    const searchObj = {...this.requestParams, ...this.searchFilterOptions};
+    console.log('request params', searchObj)
+    this.getCars(searchObj);
+  }
 
-  getCars():void{
-    this.carService.getCars(this.requestParams)
+  getCars(searchParams:any):void{
+
+    this.carService.getCars(searchParams)
     .subscribe(
       (response:HttpResponse<any>)=>{
 
@@ -185,6 +198,8 @@ public availablePageSizes=[3,5,10,50];
 
         this.vehicles = responseVehicles.map(
           (vehicle)=>{
+            //const date = new Date(vehicle.date);
+            //console.log(date.toISOString())
 
             return new CarResource(vehicle)
           });
@@ -243,7 +258,8 @@ public availablePageSizes=[3,5,10,50];
     .subscribe((event)=>{
 
       var getCarsCallback = (data?: any) : void => {
-        this.getCars()
+        const searchObj = {...this.requestParams, ...this.searchFilterOptions};
+        this.getCars(searchObj);
       }
       this.handleEventUpload(event,getCarsCallback);
 

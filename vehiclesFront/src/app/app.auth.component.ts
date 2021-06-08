@@ -54,7 +54,9 @@ export class AppAuthComponent
         console.log('AppAuthComponent this.isAuthenticated from subscription',this.isAuthenticated);
         if(this.isAuthenticated){
           console.log('getting cars from AppAuthComponent constructor from  subscription');
-          this.vehiclesComponent.getCars();
+          this.vehiclesComponent.getCars({
+            ...this.vehiclesComponent.requestParams,
+              ...this.vehiclesComponent.searchFilterOptions});
         }
     });
 
@@ -73,7 +75,9 @@ export class AppAuthComponent
       console.log(' AppAuthComponent ngAfterViewInit');
       if(this.isAuthenticated){
         console.log('getting cars from AppAuthComponent ngAfterViewInit');
-        this.vehiclesComponent.getCars();
+        this.vehiclesComponent.getCars({
+          ...this.vehiclesComponent.requestParams,
+          ...this.vehiclesComponent.searchFilterOptions});
       }
 
 

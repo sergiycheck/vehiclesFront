@@ -28,4 +28,15 @@ a{
 .poiner:hover{
   cursor: pointer;
 }
+/*
+.content-element{
+  height: 100%;
+  position: relative;
+} */
+
+footer{
+  /* position: absolute; */
+  display: block;
+  bottom:0;
+}
 

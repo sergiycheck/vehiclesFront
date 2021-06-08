@@ -1,5 +1,7 @@
 <!-- https://getbootstrap.com/docs/4.0/layout/grid/ -->
-<div class="container-fluid bg-light">
+
+
+<div class="content-element container-fluid bg-light">
 
   <app-my-login
     (handleHideLoginPanelRequest)="handleClickHideLogin()"
@@ -7,7 +9,8 @@
   >
   </app-my-login>
 
-  <div  class="container mb-5 p-3">
+  <!--container  -->
+  <div  class=" mb-5 p-3">
 
     <nav class="navbar navbar-expand-md fixed-top navbar-light shadow p-0 bg-light" role="navigation">
 
@@ -80,10 +83,6 @@
     </nav>
 
 
-
-
-
-
     <div class="mt-5">
       <router-outlet></router-outlet>
     </div>
@@ -92,7 +91,7 @@
 
   </div>
 
-  <footer class="mt-2 bg-dark text-white p-3">
+  <footer class="bg-dark text-white p-3">
     <div class="container">
       <div class="row d-flex">
         <h2 class="fs-3">Social media</h2>

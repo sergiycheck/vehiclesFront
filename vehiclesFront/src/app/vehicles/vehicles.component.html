@@ -2,183 +2,280 @@
 
   <div *ngIf="showUpdatePane">
 
-    <div class="row">
-      <div class="col-md-4">
+    <div class="container">
 
-        <label for="car_brand">vehicle brand</label>
-        <input id="car_brand" type="text" name="brand"
-          [(ngModel)]="vehicle.brand" placeholder="brand" class="form-control">
+      <div class="row">
+        <div class="col-md-4">
 
-        <label for="car_uniqueNumber">vehicle unique number</label>
-        <input id="car_uniqueNumber" type="text" name="uniqueNumber"
-          [(ngModel)]="vehicle.uniqueNumber" placeholder="uniqueNumber" class="form-control">
+          <label for="car_brand">vehicle brand</label>
+          <input id="car_brand" type="text" name="brand"
+            [(ngModel)]="vehicle.brand" placeholder="brand" class="form-control">
 
-        <label for="car_color">vehicle color</label>
-        <input id="car_color" type="text" name="color"
-          [(ngModel)]="vehicle.color" placeholder="color" class="form-control">
+          <label for="car_uniqueNumber">vehicle unique number</label>
+          <input id="car_uniqueNumber" type="text" name="uniqueNumber"
+            [(ngModel)]="vehicle.uniqueNumber" placeholder="uniqueNumber" class="form-control">
 
-        <mat-form-field class="bg-light rounded my-2" appearance="fill">
-          <mat-label class="text-dark">Choose a date</mat-label>
-          <input [(ngModel)]="vehicle.date" name="date"
-            class="border-bottom validate-date" matInput [matDatepicker]="picker">
+          <label for="car_color">vehicle color</label>
+          <input id="car_color" type="text" name="color"
+            [(ngModel)]="vehicle.color" placeholder="color" class="form-control">
 
-          <mat-datepicker-toggle matSuffix [for]="picker">
-            <mat-icon class="text-dark"
-             matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-          </mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-form-field class="bg-light rounded my-2" appearance="fill">
+            <mat-label class="text-dark">Choose a date</mat-label>
+            <input [(ngModel)]="vehicle.date" name="date"
+              class="border-bottom validate-date" matInput [matDatepicker]="picker">
 
-        </mat-form-field><br>
+            <mat-datepicker-toggle matSuffix [for]="picker">
+              <mat-icon class="text-dark"
+              matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
 
-
-        <label for="car_price">vehicle price</label>
-        <input id="car_price" type="number" name="price"
-          [(ngModel)]="vehicle.price" placeholder="price" class="form-control">
-
-        <label for="car_engine">vehicle engine</label>
-        <input id="car_engine"  type="number" name="carEngine"
-          [(ngModel)]="vehicle.carEngine" placeholder="car engine" class="form-control">
-
-        <label for="car_description">vehicle description</label>
-        <input id="car_description" type="text" name="description"
-          [(ngModel)]="vehicle.description" placeholder="description" class="form-control">
-
-        <label for="car_transmission">vehicle transmission</label>
-        <input  id="car_transmission" type="text" name="transmisstion"
-          [(ngModel)]="vehicle.transmision" placeholder="transmisstion" class="form-control">
-
-        <label for="car_drive">vehicle drive</label>
-        <input id="car_drive" type="text" name="drive"
-          [(ngModel)]="vehicle.drive" placeholder="drive" class="form-control"
-          style="margin-bottom: 20px;">
-
-        <div>
-          <label for="car_img">vehicle image</label><br>
-          <input type="file" #car_img name="car_img"
-            style="display:none;"
-            (change)="handleFileInput($event.target.files)">
-          <button
-            type="button"
-            class="btn btn-success"
-            (click)="car_img.click()">
-            upload vehicle image
-          </button>
-          <div *ngIf="fileToUpload">
-            <span>name: {{fileToUpload.name}}</span>
-          </div>
-          <span class="text-success m-2"
-            *ngIf="uploadImgProgress>0">
-            {{uploadImgProgress}}%
-          </span>
-          <span class="text-success m-2"
-            *ngIf="uploadImgMessage">
-            {{uploadImgMessage}}
-          </span>
-        </div>
+          </mat-form-field>
+          <br>
 
 
+          <label for="car_price">vehicle price</label>
+          <input id="car_price" type="number" name="price"
+            [(ngModel)]="vehicle.price" placeholder="price" class="form-control">
 
-        <div class="m-3 d-flex justify-content-between">
-          <input type="button" class="btn btn-success" value="Save" (click)="save(car_img.files)">
-          <input type="button" class="btn btn-default" value="cancel" (click)="cancel()">
-        </div>
+          <label for="car_engine">vehicle engine</label>
+          <input id="car_engine"  type="number" name="carEngine"
+            [(ngModel)]="vehicle.carEngine" placeholder="car engine" class="form-control">
 
+          <label for="car_description">vehicle description</label>
+          <input id="car_description" type="text" name="description"
+            [(ngModel)]="vehicle.description" placeholder="description" class="form-control">
 
-      </div>
-    </div>
+          <label for="car_transmission">vehicle transmission</label>
+          <input  id="car_transmission" type="text" name="transmisstion"
+            [(ngModel)]="vehicle.transmision" placeholder="transmisstion" class="form-control">
 
+          <label for="car_drive">vehicle drive</label>
+          <input id="car_drive" type="text" name="drive"
+            [(ngModel)]="vehicle.drive" placeholder="drive" class="form-control"
+            style="margin-bottom: 20px;">
 
-  </div>
-
-
-  <div class="row" >
-
-    <div class="row">
-
-      <custom-pagination
-      *ngIf="paginationOptions"
-        class="col"
-        [paginationOptions]="paginationOptions"
-        [requestParams]="requestParams"
-        [availablePageSizes]="availablePageSizes"
-        (handleClickPreviousRequest)="handleClickPrevious()"
-        (handleClickNextRequest)="handleClickNext()"
-        (onChangePageSizeRequest)="onChangePageSize($event)"
-      >
-      </custom-pagination>
-
-
-      <div class="col">
-        <input  *ngIf="isAuthenticated && getToken()"
-          type="button" value="create car" class="btn btn-primary" (click)="createCar()">
-      </div>
-
-      <div class="col d-flex justify-content-end">
-
-
-        <div>
-          <label *ngFor="let viewType of viewTypes">
-            <div>
-              <input class="btn-check" type="radio"
-                [id]="viewType.id" autocomplete="off"
-                [(ngModel)]="currentViewType"
-                [value]="viewType.viewTypeValue"
-                (click)="handleViewRadioChange($event)"
-                >
-              <label [class]="viewType.class" [for]="viewType.id"></label>
+          <div>
+            <label for="car_img">vehicle image</label><br>
+            <input type="file" #car_img name="car_img"
+              style="display:none;"
+              (change)="handleFileInput($event.target.files)">
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="car_img.click()">
+              upload vehicle image
+            </button>
+            <div *ngIf="fileToUpload">
+              <span>name: {{fileToUpload.name}}</span>
             </div>
-          </label>
+            <span class="text-success m-2"
+              *ngIf="uploadImgProgress>0">
+              {{uploadImgProgress}}%
+            </span>
+            <span class="text-success m-2"
+              *ngIf="uploadImgMessage">
+              {{uploadImgMessage}}
+            </span>
+          </div>
+
+
+
+          <div class="m-3 d-flex justify-content-between">
+            <input type="button" class="btn btn-success" value="Save" (click)="save(car_img.files)">
+            <input type="button" class="btn btn-default" value="cancel" (click)="cancel()">
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+<!-- d-flex justify-content-between -->
+  <div class="" >
+
+    <div class="container">
+
+      <div class="row">
+
+        <div  *ngIf="isAuthenticated && getToken()" class="col-sm-2 col-md-2">
+          <input type="button" value="create car" class="btn btn-primary" (click)="createCar()">
         </div>
 
+        <custom-pagination
+        *ngIf="paginationOptions"
+          class="col-sm-4"
+          [paginationOptions]="paginationOptions"
+          [requestParams]="requestParams"
+          [availablePageSizes]="availablePageSizes"
+          (handleClickPreviousRequest)="handleClickPrevious()"
+          (handleClickNextRequest)="handleClickNext()"
+          (onChangePageSizeRequest)="onChangePageSize($event)"
+        >
+        </custom-pagination>
+
+        <div class="col d-flex justify-content-end">
+
+          <div>
+            <label *ngFor="let viewType of viewTypes">
+              <div>
+                <input class="btn-check" type="radio"
+                  [id]="viewType.id" autocomplete="off"
+                  [(ngModel)]="currentViewType"
+                  [value]="viewType.viewTypeValue"
+                  (click)="handleViewRadioChange($event)"
+                  >
+                <label [class]="viewType.class" [for]="viewType.id"></label>
+              </div>
+            </label>
+          </div>
+
+
+        </div>
 
       </div>
 
     </div>
 
 
-<!-- https://fontawesome.com/icons?d=gallery -->
 
 
-  <div [ngSwitch]="currentViewType">
-
-    <div class="row" *ngSwitchCase="'grid-view'">
-
-      <app-vehicle-child
-      class="col-sm-4 mt-2"
-      *ngFor="let elem of vehicles"
-      [token]="getToken()"
-      [carDataService]="carService"
-
-      [vehicle]="elem.dataResource"
-      [userCanAccess]="isAuthenticated"
+    <!-- https://fontawesome.com/icons?d=gallery -->
 
 
-      (deleteRequest)="delete($event)"
-      (editCarRequest)="editCar($event)"
-    ></app-vehicle-child>
+    <div class=" mt-4 main-section  container">
+
+      <div class="row">
+
+
+
+        <div class="col-sm-4 col-md-4">
+
+          <div class="row">
+            <div class="col-sm-10 col-md-10  d-flex justify-content-between">
+              <input type="text" name="searchText" [(ngModel)]="searchFilterOptions.searchText"
+                class="form-control m-2" placeholder="search by text">
+
+              <button (click)="findBtnHandleClick()" class=" m-2 btn btn-info">Find</button>
+            </div>
+          </div>
+          <div class="row justify-content-evenly">
+            <div class="col-md-6">
+              <label for="min-price-inp">Min price</label>
+              <input [(ngModel)]="searchFilterOptions.minPrice" type="number" class="form-control"
+                name="min-price-inp" placeholder="Min price">
+            </div>
+            <div class="col-md-6">
+              <label for="max-price-inp">Max Price</label>
+              <input [(ngModel)]="searchFilterOptions.maxPrice" type="number" class="form-control"
+              name="max-price-inp" placeholder="Max Price">
+            </div>
+          </div>
+
+          <div class="row justify-content-evenly">
+            <div class="col-md-6">
+              <label for="min-engine-inp">Min engine power</label>
+              <input [(ngModel)]="searchFilterOptions.minEnginePower" type="number"
+                class="form-control" name="min-engine-inp" placeholder="Min engine power">
+            </div>
+            <div class="col-md-6">
+              <label for="max-engine-inp">Max engine power</label>
+              <input [(ngModel)]="searchFilterOptions.maxEnginePower"  type="number"
+                class="form-control" name="max-engine-inp" placeholder="Max engine power">
+            </div>
+          </div>
+
+          <div class="row d-flex justify-content-between">
+
+            <div class="col-md-5 d-flex justify-content-center">
+              <mat-form-field class="bg-light rounded my-2 " appearance="fill">
+                <mat-label class="text-dark">Choose a min date</mat-label>
+                <input [(ngModel)]="searchFilterOptions.MinDate"
+                  name="min-search-date"
+                  class="border-bottom validate-date"
+                  matInput [matDatepicker]="pickerMinDate">
+
+                <mat-datepicker-toggle
+                   matSuffix [for]="pickerMinDate">
+                  <mat-icon class="text-dark"
+                  matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #pickerMinDate></mat-datepicker>
+
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-5 d-flex justify-content-center">
+              <mat-form-field class="bg-light rounded my-2" appearance="fill">
+                <mat-label class="text-dark">Choose a max date</mat-label>
+                <input [(ngModel)]="searchFilterOptions.MaxDate"   name="max-search-date"
+                  class="border-bottom validate-date" matInput
+                  [matDatepicker]="pickerMaxDate">
+
+                <mat-datepicker-toggle matSuffix [for]="pickerMaxDate">
+                  <mat-icon class="text-dark"
+                  matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #pickerMaxDate></mat-datepicker>
+
+              </mat-form-field>
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+        <div class="col-sm-8 col-md-8 "
+          [ngSwitch]="currentViewType">
+
+          <div class="row" *ngSwitchCase="'grid-view'">
+
+            <app-vehicle-child
+            class="col-sm-4 mt-2"
+            *ngFor="let elem of vehicles"
+            [token]="getToken()"
+            [carDataService]="carService"
+
+            [vehicle]="elem.dataResource"
+            [userCanAccess]="isAuthenticated"
+
+
+            (deleteRequest)="delete($event)"
+            (editCarRequest)="editCar($event)"
+          ></app-vehicle-child>
+
+          </div>
+          <div *ngSwitchCase="'list-view'">
+
+            <app-vehicle-child-list
+              class="col-sm-10 mt-2"
+              *ngFor="let elem of vehicles"
+
+              [token]="getToken()"
+
+              [carDataService]="carService"
+              [vehicle]="elem.dataResource"
+              [userCanAccess]="isAuthenticated"
+
+
+
+              (deleteRequest)="delete($event)"
+              (editCarRequest)="editCar($event)"
+            ></app-vehicle-child-list>
+
+          </div>
+
+        </div>
+      </div>
 
     </div>
-    <div *ngSwitchCase="'list-view'">
-
-      <app-vehicle-child-list
-        class="col-sm-10 mt-2"
-        *ngFor="let elem of vehicles"
-
-        [token]="getToken()"
-
-        [carDataService]="carService"
-        [vehicle]="elem.dataResource"
-        [userCanAccess]="isAuthenticated"
-
-
-
-        (deleteRequest)="delete($event)"
-        (editCarRequest)="editCar($event)"
-      ></app-vehicle-child-list>
-
-    </div>
-
-  </div>
 
 
 

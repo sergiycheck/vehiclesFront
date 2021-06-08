@@ -1,98 +1,103 @@
 
-<app-user-penalty
-  *ngIf="showPenaltyComponent"
-  [penalty]="currentPenalty"
-  (handleHidePenaltyPanel)="handleHidePenaltyComponent()"
-  [userServiceInput]="userService"
-  >
+  <div class="container">
 
-</app-user-penalty>
+    <app-user-penalty
+      *ngIf="showPenaltyComponent"
+      [penalty]="currentPenalty"
+      (handleHidePenaltyPanel)="handleHidePenaltyComponent()"
+      [userServiceInput]="userService"
+      >
 
-  <div *ngIf="posessor"
+    </app-user-penalty>
 
-    class="row gutters-sm ">
-    <div class="col-md-4 mb-3">
 
-      <div class="card">
-        <div class="card-body">
-          <div class="d-flex flex-column align-items-center text-center">
-            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+    <div *ngIf="posessor"
 
-            <div class="mt-3">
-              <h4>{{posessor.name?posessor.name:posessor.userName}}</h4>
-              <p class="text-secondary mb-1">user info</p>
-              <p class="text-muted font-size-sm">{{posessor.location}}</p>
-              <button class="btn btn-primary">Follow</button>
-              <button class="btn btn-outline-primary">Message</button>
+      class="row gutters-sm ">
+      <div class="col-md-4 mb-3">
+
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+
+              <div class="mt-3">
+                <h4>{{posessor.name?posessor.name:posessor.userName}}</h4>
+                <p class="text-secondary mb-1">user info</p>
+                <p class="text-muted font-size-sm">{{posessor.location}}</p>
+                <button class="btn btn-primary">Follow</button>
+                <button class="btn btn-outline-primary">Message</button>
+              </div>
+
             </div>
-
-          </div>
-        </div>
-      </div>
-
-      <div class="card mt-3">
-
-        <div class="">
-          <div class="p-2">
-            <button
-              (click)="getUserPenalties()"
-              class="btn btn-primary">get user penalties</button>
           </div>
         </div>
 
-        <div *ngIf="penalties && penalties.length>0">
+        <div class="card mt-3">
+
+          <div class="">
+            <div class="p-2">
+              <button
+                (click)="getUserPenalties()"
+                class="btn btn-primary">get user penalties</button>
+            </div>
+          </div>
+
+          <div *ngIf="penalties && penalties.length>0">
 
 
-          <div *ngFor="let penalty of penalties"
+            <div *ngFor="let penalty of penalties"
 
-            class="accordion" [id]="'accordionExample'+penalty.id">
-            <div class="accordion-item">
+              class="accordion" [id]="'accordionExample'+penalty.id">
+              <div class="accordion-item">
 
-              <h2 class="accordion-header" [id]="'headingOne'+penalty.id">
+                <h2 class="accordion-header" [id]="'headingOne'+penalty.id">
 
-                <div class="p-2">
-                  <p>
-                    <strong class="m-2">{{penalty.payedStatus==true?'payed':'not payed'}}</strong>
-                    <button
+                  <div class="p-2">
+                    <p>
+                      <strong class="m-2">{{penalty.payedStatus==true?'payed':'not payed'}}</strong>
+                      <button
 
-                      (click)="handleShowPenaltyComponent(penalty)"
-                      class="btn btn-success m-2">
-                      <span> {{penalty.payedStatus?'show info':'pay penalty '}}</span>
-                    </button>
-                  </p>
-                  <p>
-                    {{penalty.price | currency}}
-                  </p>
-                  <p>
-                    {{penalty.date |date}}
-                  </p>
+                        (click)="handleShowPenaltyComponent(penalty)"
+                        class="btn btn-success m-2">
+                        <span> {{penalty.payedStatus?'show info':'pay penalty '}}</span>
+                      </button>
+                    </p>
+                    <p>
+                      {{penalty.price | currency}}
+                    </p>
+                    <p>
+                      {{penalty.date |date}}
+                    </p>
+                  </div>
+
+                  <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse"
+
+                    [attr.data-bs-target]="'#collapseOne'+penalty.id"
+
+                    aria-expanded="false"
+
+                    [attr.aria-controls]="'#collapseOne'+penalty.id">
+                    show description
+                  </button>
+
+                </h2>
+
+                <div [id]="'collapseOne'+penalty.id"
+                  class="accordion-collapse collapse "
+                  [attr.aria-labelledby]="'headingOne'+penalty.id"
+
+                  [attr.data-bs-parent]="'#accordionExample'+penalty.id">
+
+
+                  <div class="accordion-body">
+                    <strong>{{penalty.location}}</strong>
+
+                    {{penalty.description}}
+                  </div>
                 </div>
 
-                <button class="accordion-button collapsed" type="button"
-                  data-bs-toggle="collapse"
-
-                  [attr.data-bs-target]="'#collapseOne'+penalty.id"
-
-                  aria-expanded="false"
-
-                  [attr.aria-controls]="'#collapseOne'+penalty.id">
-                  show description
-                </button>
-
-              </h2>
-
-              <div [id]="'collapseOne'+penalty.id"
-                class="accordion-collapse collapse "
-                [attr.aria-labelledby]="'headingOne'+penalty.id"
-
-                [attr.data-bs-parent]="'#accordionExample'+penalty.id">
-
-
-                <div class="accordion-body">
-                  <strong>{{penalty.location}}</strong>
-
-                  {{penalty.description}}
-                </div>
               </div>
 
             </div>
@@ -101,79 +106,79 @@
 
         </div>
 
+
+
       </div>
 
 
+      <div class="col-md-8">
 
-    </div>
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <h4 class="mb-0">Full Name</h4>
+              </div>
 
-
-    <div class="col-md-8">
-
-      <div class="card mb-3">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-3">
-              <h4 class="mb-0">Full Name</h4>
+              <div class="col-sm-9 text-secondary">
+                {{posessor.name}} {{posessor.surName}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h4 class="mb-0">Email</h4>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{posessor.email}}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h4 class="mb-0">Phone</h4>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{posessor.carOwnerPhone}}
+              </div>
             </div>
 
-            <div class="col-sm-9 text-secondary">
-              {{posessor.name}} {{posessor.surName}}
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h4 class="mb-0">Address</h4>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{posessor.location}}
+              </div>
             </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-sm-3">
-              <h4 class="mb-0">Email</h4>
-            </div>
-            <div class="col-sm-9 text-secondary">
-              {{posessor.email}}
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-sm-3">
-              <h4 class="mb-0">Phone</h4>
-            </div>
-            <div class="col-sm-9 text-secondary">
-              {{posessor.carOwnerPhone}}
-            </div>
-          </div>
-
-          <hr>
-          <div class="row">
-            <div class="col-sm-3">
-              <h4 class="mb-0">Address</h4>
-            </div>
-            <div class="col-sm-9 text-secondary">
-              {{posessor.location}}
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-sm-4">
-              <button
-                (click)="getUserCars()"
-                class="btn btn-primary">get user vehicles</button>
+            <hr>
+            <div class="row">
+              <div class="col-sm-4">
+                <button
+                  (click)="getUserCars()"
+                  class="btn btn-primary">get user vehicles</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div
-        *ngIf="vehicles && vehicles.length>0"
-         class="row gutters-sm">
+        <div
+          *ngIf="vehicles && vehicles.length>0"
+          class="row gutters-sm">
 
-         <app-vehicle-child-list
-         class="col-sm-10 mt-2"
-         *ngFor="let elem of vehicles"
-         [token]="getToken()"
-         [carDataService]="carService"
+          <app-vehicle-child-list
+          class="col-sm-10 mt-2"
+          *ngFor="let elem of vehicles"
+          [token]="getToken()"
+          [carDataService]="carService"
 
-         [vehicle]="elem"
-         [userCanAccess]="false"
-       ></app-vehicle-child-list>
+          [vehicle]="elem"
+          [userCanAccess]="false"
+        ></app-vehicle-child-list>
 
+        </div>
       </div>
     </div>
+
   </div>

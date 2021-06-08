@@ -39,17 +39,18 @@ public getPaginationOptionsFromResponse
   }
 
 public getHttpParams(params):HttpParams{
-  var mapParams = new Map();
+  //var mapParams = new Map();
   var httpParams = new HttpParams();
   if(params){
     for(const[key,value] of Object.entries(params)){
       if(key&&value){
-        let numValue = Number.parseInt(`${value}`);
-        mapParams.set(key,numValue);
-        httpParams = httpParams.append(key,`${numValue}`)
+        //let numValue = Number.parseInt(`${value}`);
+        //mapParams.set(key,numValue);
+        //httpParams = httpParams.append(key,`${numValue}`)
+        httpParams = httpParams.append(key,`${value}`)
       }
     }
-
+    console.log('params', httpParams);
   }
   return httpParams;
 }
