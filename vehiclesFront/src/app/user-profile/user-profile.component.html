@@ -5,6 +5,7 @@
       *ngIf="showPenaltyComponent"
       [penalty]="currentPenalty"
       (handleHidePenaltyPanel)="handleHidePenaltyComponent()"
+      (handleGetUserPenalties)="getUserPenalties()"
       [userServiceInput]="userService"
       >
 

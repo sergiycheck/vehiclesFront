@@ -125,6 +125,7 @@ export class UserProfileComponent
   }
 
   getUserPenalties():void{
+    console.log('getting user penalties');
     if(!this.posessor){
       return;
     }
@@ -137,6 +138,7 @@ export class UserProfileComponent
         .subscribe((response:Response)=>{
           if(response){
             this.penalties = response.data;
+            console.log(this.penalties);
 
           }else{
             console.log('undefined response');

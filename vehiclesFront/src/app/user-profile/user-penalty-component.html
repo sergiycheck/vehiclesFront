@@ -5,7 +5,7 @@
 
       <div class="row  justify-content-center">
 
-        <div class="p-3 bg-light rounded col-md-7">
+        <div class="p-3 bg-light rounded col-md-9">
 
           <div class="row ">
             <div class="d-flex justify-content-end">
@@ -24,6 +24,7 @@
                 <strong>{{!penalty.payedStatus?'not payed':'payed'}}</strong>
               </h2>
               <h2 class="m-2">location: {{penalty.location}}</h2>
+              <h2 class="m-2">car number: {{penalty.carUniqueNumber}}</h2>
               <h2 class="m-2">price: {{penalty.price |currency}}</h2>
               <h2 class="m-2">date: {{penalty.date | date}}</h2>
             </div>
@@ -66,6 +67,7 @@
                 </div>
 
                   <button
+                    *ngIf="activePayBtn"
                     (click)="handleClickPayPenalty()"
                     class="btn btn-primary ">Pay</button>
 

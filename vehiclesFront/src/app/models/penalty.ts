@@ -8,6 +8,7 @@ export class Penalty{
     public location?:string,
     public price?:number,
     public date?:Date,
+    public carUniqueNumber?:string
   ){
 
   }

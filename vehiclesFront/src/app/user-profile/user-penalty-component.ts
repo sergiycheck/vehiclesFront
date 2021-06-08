@@ -20,6 +20,8 @@ export class UserPenaltyComponent implements OnInit{
   @Output() handleHidePenaltyPanel = new EventEmitter<boolean>();
   @Input() userServiceInput:UserDataService;
 
+  @Output() handleGetUserPenalties= new EventEmitter();
+
   public penaltyPayRequest:PenaltyPayRequest = new PenaltyPayRequest();
 
   public showErrors:boolean=false;
@@ -28,12 +30,14 @@ export class UserPenaltyComponent implements OnInit{
   public showSuccessResponse:boolean=false;
   public successMessage:string;
 
+  public activePayBtn:boolean=true;
+
   constructor(){
 
   }
 
   ngOnInit(){
-
+    console.log('ngOnInitUser penalty')
   }
 
 
@@ -65,6 +69,13 @@ export class UserPenaltyComponent implements OnInit{
         this.showErrors = false;
         this.errorMessage = null;
         this.penaltyPayRequest.fee = null;
+        this.activePayBtn = false;
+
+        this.handleGetUserPenalties.emit();
+
+      },(err)=>{
+        this.showErrors = true;
+        this.errorMessage = err;
       })
 
 
