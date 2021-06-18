@@ -1,98 +1,17 @@
 
 
-  <div *ngIf="showUpdatePane">
+  <app-create-edit-vehicle
+    *ngIf="showUpdatePane"
+    [vehicle]="vehicle"
+    [uploadImgProgress]="uploadImgProgress"
+    [fileToUpload]="fileToUpload"
+    [uploadImgMessage]="uploadImgMessage"
+    (fileInputHandler)="handleFileInput($event)"
+    (saveHandler)="save($event)"
+    (hidePanelHandler)="cancel()"
 
-    <div class="container">
-
-      <div class="row">
-        <div class="col-md-4">
-
-          <label for="car_brand">vehicle brand</label>
-          <input id="car_brand" type="text" name="brand"
-            [(ngModel)]="vehicle.brand" placeholder="brand" class="form-control">
-
-          <label for="car_uniqueNumber">vehicle unique number</label>
-          <input id="car_uniqueNumber" type="text" name="uniqueNumber"
-            [(ngModel)]="vehicle.uniqueNumber" placeholder="uniqueNumber" class="form-control">
-
-          <label for="car_color">vehicle color</label>
-          <input id="car_color" type="text" name="color"
-            [(ngModel)]="vehicle.color" placeholder="color" class="form-control">
-
-          <mat-form-field class="bg-light rounded my-2" appearance="fill">
-            <mat-label class="text-dark">Choose a date</mat-label>
-            <input [(ngModel)]="vehicle.date" name="date"
-              class="border-bottom validate-date" matInput [matDatepicker]="picker">
-
-            <mat-datepicker-toggle matSuffix [for]="picker">
-              <mat-icon class="text-dark"
-              matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-            </mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-
-          </mat-form-field>
-          <br>
-
-
-          <label for="car_price">vehicle price</label>
-          <input id="car_price" type="number" name="price"
-            [(ngModel)]="vehicle.price" placeholder="price" class="form-control">
-
-          <label for="car_engine">vehicle engine</label>
-          <input id="car_engine"  type="number" name="carEngine"
-            [(ngModel)]="vehicle.carEngine" placeholder="car engine" class="form-control">
-
-          <label for="car_description">vehicle description</label>
-          <input id="car_description" type="text" name="description"
-            [(ngModel)]="vehicle.description" placeholder="description" class="form-control">
-
-          <label for="car_transmission">vehicle transmission</label>
-          <input  id="car_transmission" type="text" name="transmisstion"
-            [(ngModel)]="vehicle.transmision" placeholder="transmisstion" class="form-control">
-
-          <label for="car_drive">vehicle drive</label>
-          <input id="car_drive" type="text" name="drive"
-            [(ngModel)]="vehicle.drive" placeholder="drive" class="form-control"
-            style="margin-bottom: 20px;">
-
-          <div>
-            <label for="car_img">vehicle image</label><br>
-            <input type="file" #car_img name="car_img"
-              style="display:none;"
-              (change)="handleFileInput($event.target.files)">
-            <button
-              type="button"
-              class="btn btn-success"
-              (click)="car_img.click()">
-              upload vehicle image
-            </button>
-            <div *ngIf="fileToUpload">
-              <span>name: {{fileToUpload.name}}</span>
-            </div>
-            <span class="text-success m-2"
-              *ngIf="uploadImgProgress>0">
-              {{uploadImgProgress}}%
-            </span>
-            <span class="text-success m-2"
-              *ngIf="uploadImgMessage">
-              {{uploadImgMessage}}
-            </span>
-          </div>
-
-
-
-          <div class="m-3 d-flex justify-content-between">
-            <input type="button" class="btn btn-success" value="Save" (click)="save(car_img.files)">
-            <input type="button" class="btn btn-default" value="cancel" (click)="cancel()">
-          </div>
-
-
-        </div>
-      </div>
-    </div>
-
-
-  </div>
+    >
+  </app-create-edit-vehicle>
 
 
 <!-- d-flex justify-content-between -->

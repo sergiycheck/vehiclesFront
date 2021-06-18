@@ -19,10 +19,16 @@
           <i class="fas fa-car"></i> {{vehicle.brand}}
         </h2>
 
-        <a *ngIf="userCanAccess && isUserAllowedForAction"
-          (click)="delete(vehicle.id)" class="btn btn-danger ">
-          <i class="fas fa-window-close"></i>
-        </a>
+        <div>
+          <span *ngIf="vehicle.forSale" class="badge bg-success p-3">For Sale</span>
+          <span *ngIf="!vehicle.forSale" class="badge bg-info text-dark p-3">Info</span>
+
+          <a *ngIf="userCanAccess && isUserAllowedForAction"
+            (click)="delete(vehicle.id)" class="btn btn-danger mx-2">
+            <i class="fas fa-window-close"></i>
+          </a>
+        </div>
+
 
       </div>
 
@@ -39,7 +45,6 @@
             <p>{{vehicle.uniqueNumber}}</p>
           </div>
         </div>
-
         <div class="additional-info">
           <div class="">
             <h2>Color</h2>

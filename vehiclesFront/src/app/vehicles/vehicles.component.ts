@@ -19,6 +19,7 @@ import {UserDataService} from '../services/user.data.service';
 import { PaginationOptions,RequestParams,SearchFilterOptions } from "../models/pagination-options";
 
 
+
 declare function dateValidator():any;
 
 @Component({
@@ -112,24 +113,27 @@ public availablePageSizes=[3,5,10,50];
       "vevev0-12112",
       "honda",
       vehicleTest.color,
-      vehicleTest.date,
       vehicleTest.price,
       vehicleTest.carEngine,
       "test descriptions",
       vehicleTest.transmision,
       vehicleTest.drive
     )
+    this.vehicle.date = vehicleTest.date;
   }
 
   cancel():void{
     this.showUpdatePane=false;
   }
 
-  async editCar(car:Car){
-
+  editCar(car:Car){
 
     this.showUpdatePane=true;
-    this.vehicle = car;
+
+    this.vehicle = new Car(car?.id,car?.uniqueNumber,car?.brand,car?.color,car?.price,car?.carEngine,car?.description,car?.transmision,car?.drive,car?.forSale,car?.updateImage, car?.imgFile,car?.imageData);
+    this.vehicle.date = car?.date;
+
+
     dateValidator();
 
   }
@@ -210,13 +214,24 @@ public availablePageSizes=[3,5,10,50];
 
   }
 
+  fileToUpload: File = null;
+  handleFileInput(files: FileList) {
+      this.fileToUpload = files.item(0);
+  }
+
   save(files):void{
+    //let fileToUpload = <File>carImgFiles[0];
+    this.uploadImgProgress = null;
+
+    console.log({...this.vehicle, date:this.vehicle.date});
+
     if(this.vehicle.id==null){
-      this.add(this.vehicle,files);
+      this.add(this.vehicle);
     }else{
       this.update(this.vehicle);
     }
     this.refresh();
+
   }
 
   refresh():void{
@@ -225,35 +240,18 @@ public availablePageSizes=[3,5,10,50];
 
   update(car:Car):void{
 
-    this.uploadImgProgress =null;
     const formData = new FormData();
-    if(!this.fileToUpload && !car.imgFile){
-      console.log('no img selected for vehicle ',car.brand);
-      return;
-    }else{
+    this.addDataToFormData(car,formData);
 
-      Object.entries(car).forEach(([key,data])=>{
-        if(key!='imgFile' && key!='imageData' ){
-          formData.append(key,data);
-        }
-      });
-      formData.append('Token',this.getToken());
-
-      if(this.fileToUpload){
-        formData.append('UpdateImage', JSON.stringify(true));
-        car.updateImage = 'true';
-        formData.append('file', this.fileToUpload, this.fileToUpload.name);
+    console.log('creating form data');
+    Object.entries(car).forEach(([key,data])=>{
+      if(key!='imgFile' && key!='imageData' ){
+        this.handleFormDataFulfilling(formData,key,data);
       }
-      else if(car.imgFile && !this.fileToUpload){
-        car.updateImage = 'false';
-        formData.append('UpdateImage', JSON.stringify(false));
-        // let file = new File([car.imgFile?.fileContents],`${car.brand}_img`,{type:car.imgFile?.contentType});
-        // this.fileToUpload = file;
-        // formData.append('file', this.fileToUpload, `${this.fileToUpload.name}.jpg`);
+    });
 
-      }
+    this.logFormData(formData);
 
-    }
     this.carService.updateCar(car.id,formData)
     .subscribe((event)=>{
 
@@ -266,36 +264,58 @@ public availablePageSizes=[3,5,10,50];
       // this.getCars()
     });
   }
+  private handleFormDataFulfilling(formData:FormData,name:string,value:string|Blob){
+    console.log(`key: ${name}, data ${value} `);
 
-  fileToUpload: File = null;
-  handleFileInput(files: FileList) {
-      this.fileToUpload = files.item(0);
+    if(name.includes('_date')){
+      formData.append("Date", value);
+    }else{
+      formData.append(name,value);
+    }
   }
 
+  private logFormData(formData:FormData){
+    console.log('formData ')
+    formData.forEach(d=>console.log(d));
+  }
 
-  add(car:Car,carImgFiles):void{
+  private addDataToFormData(car,formData){
 
-    this.uploadImgProgress =null;
+    if(!car.forSale){
+      formData.append('ForSale',JSON.stringify(false));
+    }
+    formData.append('token',this.getToken());
+
+    if(this.fileToUpload){
+      formData.append('UpdateImage', JSON.stringify(true));
+      car.updateImage = 'true';
+      formData.append('file', this.fileToUpload, this.fileToUpload.name);
+    }
+    else if(car.imgFile && !this.fileToUpload){
+      car.updateImage = 'false';
+      formData.append('UpdateImage', JSON.stringify(false));
+    }
+
+
+  }
+
+  add(car:Car):void{
 
     const formData = new FormData();
-    if(carImgFiles.length==0){
-      console.log('no img selected for vehicle ',car.brand);
-    }else{
-      let fileToUpload = <File>carImgFiles[0];
+    this.addDataToFormData(car,formData);
 
-      Object.entries(car).forEach(([key,data])=>{
+    console.log('creating form data');
+    Object.entries(car).forEach(([key,data])=>{
 
-        if(key!='id' && key!='imgFile' && key!='imageData' ){
-          formData.append(key,data);
-        }
+      if(key!='id' && key!='imgFile' && key!='imageData' ){
+        this.handleFormDataFulfilling(formData,key,data);
 
-      });
-      const token = this.getToken();
-      formData.append('token',token);
-      formData.append('UpdateImage', JSON.stringify(true));
-      formData.append('file', fileToUpload, fileToUpload.name);
+      }
 
-    }
+    });
+
+    this.logFormData(formData);
+
 
     this.carService.createCar(formData)
     .subscribe((event)=>{
@@ -309,9 +329,9 @@ public availablePageSizes=[3,5,10,50];
   }
 
   private handleEventUpload(event,callBack:(args?:any)=>any){
-    if (event.type === HttpEventType.UploadProgress){
+    if (event?.type === HttpEventType.UploadProgress){
       this.uploadImgProgress = Math.round(100 * event.loaded / event.total);
-    }else if (event.type === HttpEventType.Response) {
+    }else if (event?.type === HttpEventType.Response) {
       this.uploadImgMessage = 'Upload success.';
       callBack(event.body.data);
     }

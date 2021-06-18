@@ -1,0 +1,132 @@
+<div class="overlay">
+  <div class="overlay-content">
+
+    <div class="container">
+
+      <div class="formContent">
+
+        <div class="row">
+          <div class="d-flex justify-content-end">
+            <button
+              (click)="hidePanel()"
+              class="btn btn-danger">X</button>
+          </div>
+
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-sm-6 formCreateupdate">
+
+
+
+            <label for="car_brand">vehicle brand</label>
+            <input id="car_brand" type="text" name="brand"
+              minlength="3" maxlength="100" pattern="[A-Za-z0-9_-]+"
+              [(ngModel)]="vehicle.brand" placeholder="brand"
+                class="form-control">
+
+            <label for="car_uniqueNumber">vehicle unique number</label>
+            <input id="car_uniqueNumber" type="text" name="uniqueNumber"
+              minlength="3" maxlength="20" pattern="[A-Za-z0-9_-]+"
+              [(ngModel)]="vehicle.uniqueNumber" placeholder="uniqueNumber" class="form-control">
+
+            <label for="car_color">vehicle color</label>
+            <input id="car_color" type="text" name="color"
+              minlength="3" maxlength="20" pattern="[A-Za-z]+"
+              [(ngModel)]="vehicle.color" placeholder="color" class="form-control">
+
+            <mat-form-field class="bg-light rounded my-2" appearance="fill">
+              <mat-label class="text-dark">Choose a date</mat-label>
+              <input [(ngModel)]="vehicle.date" name="date"
+                pattern="^\d{2}([.\-\/])\d{1,2}\1\d{4}$" maxlength="11"
+                class="border-bottom validate-date" matInput
+                  [matDatepicker]="picker">
+
+              <mat-datepicker-toggle matSuffix [for]="picker">
+                <mat-icon class="text-dark"
+                matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+
+            </mat-form-field>
+            <br>
+
+
+            <label for="car_price">vehicle price</label>
+            <input id="car_price" type="number" name="price"
+              min="3" max="999999999999" pattern="^\d+(\.+\d+)*"
+              [(ngModel)]="vehicle.price" placeholder="price"
+                class="form-control">
+
+            <label for="car_engine">vehicle engine</label>
+            <input id="car_engine"  type="number" name="carEngine"
+              pattern="^\d+(\.+\d+)*" max="100"
+              [(ngModel)]="vehicle.carEngine" placeholder="car engine"
+                class="form-control">
+
+            <label for="car_description">vehicle description</label>
+            <input id="car_description" type="text" name="description"
+              minlength="3" maxlength="1500"
+              [(ngModel)]="vehicle.description" placeholder="description"
+                class="form-control">
+
+            <label for="car_transmission">vehicle transmission</label>
+            <input  id="car_transmission" type="text" name="transmisstion"
+            pattern="^\d+(\.+\d+)*" maxlength="20"
+              [(ngModel)]="vehicle.transmision" placeholder="transmisstion"
+                class="form-control">
+
+            <div class="ml-2 mt-2 mb-2 form-check">
+              <label class="form-check-label" for="car_isForSale">Is for sale?</label>
+              <input  id="car_isForSale" type="checkbox" name="checkBoxIsForSale"
+                  [(ngModel)]="vehicle.forSale" placeholder="is fo sale?"
+                    class="form-check-input">
+            </div>
+
+
+            <label for="car_drive">vehicle drive</label>
+            <input id="car_drive" type="text" name="drive"
+              pattern="[A-Za-z0-9_]+" maxlength="20"
+              [(ngModel)]="vehicle.drive" placeholder="drive" class="form-control"
+              style="margin-bottom: 20px;">
+
+            <div>
+              <label for="car_img">vehicle image</label><br>
+              <input type="file" #car_img name="car_img"
+                style="display:none;"
+                (change)="handleFileInput($event.target.files)">
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="car_img.click()">
+                upload vehicle image
+              </button>
+              <div *ngIf="fileToUpload">
+                <span>name: {{fileToUpload.name}}</span>
+              </div>
+              <span class="text-success m-2"
+                *ngIf="uploadImgProgress>0">
+                {{uploadImgProgress}}%
+              </span>
+              <span class="text-success m-2"
+                *ngIf="uploadImgMessage">
+                {{uploadImgMessage}}
+              </span>
+            </div>
+
+            <div class="m-3 d-flex justify-content-between">
+              <input type="button" class="btn btn-success"
+                value="Save" (click)="save(car_img.files)">
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -33,6 +33,8 @@ import { UserPenaltyComponent } from "./user-profile/user-penalty-component";
 import { CustomPagination } from "./helper-components/custom-pagination.component";
 import { UserPersonalCabinetComponent } from './user-personal-cabinet/user-personal-cabinet.component';
 
+import {CreateEditVehicleComponent} from './vehicles/create-edit-vehicle.component';
+
 
 export function tokenCustomGetter(){
   let token = localStorage.getItem("jwt");
@@ -55,7 +57,8 @@ export function tokenCustomGetter(){
     OwnersComponent,
     UserProfileComponent,
     UserPenaltyComponent,
-    UserPersonalCabinetComponent
+    UserPersonalCabinetComponent,
+    CreateEditVehicleComponent
   ],
   imports: [
     BrowserModule,

@@ -13,5 +13,10 @@
   width: 36px;
 }
 
+.formCreateupdate label, input {
+  margin: 10px;
+  font-size: large;
+}
+
 
 

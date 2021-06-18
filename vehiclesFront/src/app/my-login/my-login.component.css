@@ -1,29 +1,7 @@
 
 
 
-.overlay {
-  height: 0%;
-  /* height: 100%; */
-  width: 100%;
-  position: fixed;
-  z-index: 1050;
-  left: 0;
-  top: 0;
-  background-color: rgba(0, 0, 0, 0.572);
-
-  overflow-x: hidden;
-	overflow-y: hidden;
-  transition: 0.2s;
-}
-
-.overlay-content{
-  position: relative;
-  width: 100%;
-	top:10%;
-}
-
-
-.wrapper-login {
+.wrapper-panel {
 
   display: flex;
   align-items: center;
@@ -53,19 +31,7 @@ h2 {
 }
 
 
-#formContent {
-  -webkit-border-radius: 10px 10px 10px 10px;
-  border-radius: 10px 10px 10px 10px;
-  background: #fff;
-  padding: 30px;
-  width: 90%;
-  max-width: 450px;
-  position: relative;
-  padding: 0px;
-  -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-  box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-  text-align: center;
-}
+
 
 .formFooter {
   background-color: #f6f6f6;

@@ -10,10 +10,14 @@
     <div class="row justify-content-center">
       <div class="col-md-9">
 
-        <div class="m-2 p-2">
+        <div class="m-2 p-2 d-flex justify-content-between">
+
           <h3 class="fs-2">
             <i class="fas fa-car"></i> {{vehicle.brand}}
           </h3>
+          <span *ngIf="vehicle.forSale" class="badge bg-success p-3">For Sale</span>
+          <span *ngIf="!vehicle.forSale" class="badge bg-info text-dark p-3">Info</span>
+
         </div>
 
         <div>
