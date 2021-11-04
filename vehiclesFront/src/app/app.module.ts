@@ -8,7 +8,7 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
 import { FormsModule } from '@angular/forms';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
 import { MyLoginComponent } from './my-login/my-login.component';
-import { JwtModule } from "@auth0/angular-jwt";
+import { JwtModule,JwtModuleOptions } from "@auth0/angular-jwt";
 import { environment } from "../../src/environments/environment";
 import { AuthGuard } from "./guards/auth-guard.service";
 import { UserChatComponent } from './user-chat/user-chat.component';
@@ -43,6 +43,16 @@ export function tokenCustomGetter(){
   return token;
 }
 
+//preflight request
+export const JWT_MODULE_OPTIONS:JwtModuleOptions = {
+  config:{
+    tokenGetter:tokenCustomGetter,
+    whitelistedDomains:[whiteListDomains],//error was here
+    blacklistedRoutes:[""]
+  }
+}
+
+
 @NgModule({
   declarations: [
     AppAuthComponent,
@@ -66,13 +76,7 @@ export function tokenCustomGetter(){
     MatDatepickerModule,MatNativeDateModule,MatIconModule,MatInputModule,
     AppRoutingModule,
     HttpClientModule,
-    JwtModule.forRoot({//preflight request
-      config:{
-        tokenGetter:tokenCustomGetter,
-        whitelistedDomains:[whiteListDomains],//error was here
-        blacklistedRoutes:[""]
-      }
-    }),
+    JwtModule.forRoot(JWT_MODULE_OPTIONS),
     NoopAnimationsModule,
   ],
   providers: [

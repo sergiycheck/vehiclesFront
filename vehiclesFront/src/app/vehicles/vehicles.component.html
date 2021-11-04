@@ -25,19 +25,22 @@
           <input type="button" value="create car" class="btn btn-primary" (click)="createCar()">
         </div>
 
-        <custom-pagination
-        *ngIf="paginationOptions"
-          class="col-sm-4"
-          [paginationOptions]="paginationOptions"
-          [requestParams]="requestParams"
-          [availablePageSizes]="availablePageSizes"
-          (handleClickPreviousRequest)="handleClickPrevious()"
-          (handleClickNextRequest)="handleClickNext()"
-          (onChangePageSizeRequest)="onChangePageSize($event)"
-        >
-        </custom-pagination>
+        <div class="col mx-auto">
+          <custom-pagination
+          *ngIf="paginationOptions"
+            class="col-sm-4"
+            [paginationOptions]="paginationOptions"
+            [requestParams]="requestParams"
+            [availablePageSizes]="availablePageSizes"
+            (handleClickPreviousRequest)="handleClickPrevious()"
+            (handleClickNextRequest)="handleClickNext()"
+            (onChangePageSizeRequest)="onChangePageSize($event)"
+          >
+          </custom-pagination>
 
-        <div class="col d-flex justify-content-end">
+        </div>
+
+        <div class="col-12 col-sm-2 d-flex justify-content-end">
 
           <div>
             <label *ngFor="let viewType of viewTypes">

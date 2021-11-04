@@ -18,7 +18,6 @@ import { Penalty } from "../models/penalty";
 import { Subscription } from 'rxjs';
 import {AuthorizationService} from '../services/authorization.service';
 
-declare function showLoginModal():any;
 
 
 @Component({
@@ -47,10 +46,8 @@ export class UserProfileComponent
   constructor(
     public userService:UserDataService,
     public carService:CarDataService,
-
     private location:Location,
     private route:ActivatedRoute,
-    private jwtHelper:JwtHelperService,
     private authService: AuthorizationService
   ) {
 
@@ -89,9 +86,11 @@ export class UserProfileComponent
     this.subscribeToauthService();
 
 
-    this.id =this.route.snapshot.paramMap.get('id');
-
-    this.getUser();
+    this.route.paramMap.subscribe(pmap=>{
+      this.id = pmap.get('id');
+      console.log('this user id ', this.id)
+      this.getUser();
+    })
 
   }
 

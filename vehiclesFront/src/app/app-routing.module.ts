@@ -12,7 +12,7 @@ import {AppAuthComponent} from './app.auth.component'
 import { UserPersonalCabinetComponent } from "./user-personal-cabinet/user-personal-cabinet.component";
 
 
-const routes: Routes = [
+export const routes: Routes = [
   {path:'app',component:AppComponent},
   {path:'app-auth',component:AppAuthComponent},
   {path:'vehicles',component:VehiclesComponent},

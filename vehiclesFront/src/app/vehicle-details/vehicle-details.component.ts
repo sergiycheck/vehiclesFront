@@ -17,8 +17,8 @@ export class VehicleDetailsComponent implements OnInit {
 
   public vehicle:Car;
   id:number;
-  public possessor:Possessor;
-  public possessorName:string;
+  public possessors:Possessor[];
+
 
   constructor(
     private carService:CarDataService,
@@ -29,8 +29,10 @@ export class VehicleDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.id =+this.route.snapshot.paramMap.get('id');
-    this.getVehicle();
+    this.route.paramMap.subscribe(pmap=>{
+      this.id =+ pmap.get('id');
+      this.getVehicle();
+    })
   }
 
   getOwnerByUniqueNumber(){
@@ -41,11 +43,14 @@ export class VehicleDetailsComponent implements OnInit {
         this.userService.getOwnerByUniqueNumber(this.vehicle.uniqueNumber)
         .subscribe(response=>{
           if(response && response.data){
+
             console.log(response.data);
+
             if(Array.isArray(response.data)){
-              this.possessor = response.data[0];
-              this.possessorName = this.possessor.name?this.possessor.name:this.possessor.userName;
+              this.possessors = response.data;
+
             }
+
           }
         })
     }

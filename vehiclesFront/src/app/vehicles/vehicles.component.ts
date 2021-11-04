@@ -68,7 +68,6 @@ public availablePageSizes=[3,5,10,50];
   constructor(
     public userData:UserDataService,
     public carService:CarDataService,
-    public location:Location,
     public router:Router,
     public jwtHelper:JwtHelperService,
     public authGuard:AuthGuard,
@@ -351,9 +350,7 @@ public availablePageSizes=[3,5,10,50];
     });
   }
 
-  goBack():void{
-    this.location.back();
-  }
+
 
 
   handleViewRadioChange(event){

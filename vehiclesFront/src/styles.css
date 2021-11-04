@@ -33,6 +33,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .overlay {
   height: 100%;
   width: 100%;
+
   position: fixed;
   /* z-index: 1050; */
   z-index: 500;

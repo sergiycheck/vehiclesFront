@@ -42,16 +42,14 @@ export class AppComponent
   public userName:string;
 
   constructor(
-    public carService:CarDataService,
-    public render2:Renderer2,
-    public jwtHelper:JwtHelperService,
-    public router:Router,
+    public jwtHelper: JwtHelperService,
     public userData:UserDataService,
     public  authGuard:AuthGuard,
-    public location:Location,
-
     private authService: AuthorizationService
     ){
+
+      console.clear();
+      console.log('AppComponent constructor');
 
       this.authService.isAuthenticatedObs$.subscribe(
         isAuth=>{
@@ -70,11 +68,10 @@ export class AppComponent
 
 
   ngOnInit(){
-    console.clear();
+    hideLoginModal();
     console.log("AppComponent ngOnInit");
-
-
   }
+
 
   ngAfterViewInit(){
     console.log(' AppComponent ngAfterViewInit');
@@ -86,6 +83,7 @@ export class AppComponent
       console.log('AppComponent this.userName',this.userName);
       this.authService.setAuthentication(this.isAuthenticated);
       this.authService.setUser(this.user);
+
     });
 
   }
@@ -128,7 +126,7 @@ export class AppComponent
 
     }else if(token && this.jwtHelper.isTokenExpired(token)){
       console.log(' AppComponent token is expired refreshing');
-      const activateResult = await this.authGuard.canActivate();
+      const activateResult = await this.authGuard.canActivateWithoutLogin();
 
       if(activateResult){
         this.isAuthenticated = activateResult;

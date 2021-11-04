@@ -47,7 +47,7 @@ export class VehicleChildBaseComponent
 
   canUserAccess(){
 
-    return this.carDataService.canUserAccess(
+    this.carDataService.canUserAccess(
       {
         id:this.vehicle.id,
         token:this.token

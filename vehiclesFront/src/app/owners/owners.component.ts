@@ -23,12 +23,9 @@ export class OwnersComponent implements OnInit {
   ) { }
 
   public possessors:Possessor[];
-  public possessor:Possessor = new Possessor();
-
-
-public paginationOptions:PaginationOptions;
-public requestParams:RequestParams;
-public availablePageSizes=[3,5,10,50];
+  public paginationOptions:PaginationOptions;
+  public requestParams:RequestParams;
+  public availablePageSizes=[3,5,10,50];
 
 
   ngOnInit() {

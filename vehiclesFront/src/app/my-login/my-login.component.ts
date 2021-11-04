@@ -59,7 +59,7 @@ export class MyLoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log("refreshing from login component");
+    console.log("ngOnInit MyLoginComponent");
     // if(this.authGuard.canActivate()){
     //   this.router.navigate(['/']);
     // }
